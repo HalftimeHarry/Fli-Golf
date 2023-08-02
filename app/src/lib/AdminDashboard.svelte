@@ -50,7 +50,7 @@
 		</AppRailTile>
 		<!-- --- -->
 		<svelte:fragment slot="trail">
-			<AppRailAnchor href="/" title="Account" on:click={() => supabase.auth.signOut()}>
+			<AppRailAnchor href="/" title="Sign Out" on:click={() => supabase.auth.signOut()}>
 				<i class="fas fa-sign-out-alt text-white" />
 			</AppRailAnchor>
 		</svelte:fragment>
