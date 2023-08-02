@@ -6,6 +6,7 @@
   import Auth from '/workspace/Fli-Golf/app/src/lib/Auth.svelte';
   import AdminDashboard from '/workspace/Fli-Golf/app/src/lib/AdminDashboard.svelte';
   import ParticipantDashboard from '/workspace/Fli-Golf/app/src/lib/ParticipantDashboard.svelte';
+  import { fade } from 'svelte/transition';
 
   let session: AuthSession;
   let role: 'Admin' | 'Participant' | null = null;
@@ -53,13 +54,23 @@
   });
 </script>
 
-<div class="container" style="padding: 50px 0 100px 0">
+
   {#if !session}
     <Auth />
   {:else if role === 'Admin'}
-    <AdminDashboard {session} />
-    <Account {session} />
+
+	<div class="flex flex-col min-h-screen">
+		<div class="container mx-auto px-4 flex-shrink-0">
+			<AdminDashboard {session} />
+		</div>
+	<div class="grid justify-items-center mt-8 flex-grow" 
+		in:fade={{duration: 2000}} 
+		out:fade={{duration: 1000}}>
+	<Account {session} />
+	</div>
+	</div>
+
   {:else if role === 'Participant'}
     <ParticipantDashboard {session} />
   {/if}
-</div>
+

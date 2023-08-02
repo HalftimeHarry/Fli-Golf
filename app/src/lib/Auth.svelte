@@ -39,7 +39,6 @@
 				password: password // use the password variable
 			});
 			if (error) throw error;
-			alert('Check your email for login link!');
 		} catch (error) {
 			if (error instanceof Error) {
 				alert(error.message);
