@@ -2,17 +2,30 @@
 	import { supabase } from '../supabaseClient';
 	import { overlayStore } from '../lib/overlayStore';
 	import { fade } from 'svelte/transition';
+	import { onMount } from 'svelte';
 
-	let player: Partial<App.FormModels.ProPlayer> = {
+	let player: Partial<App.FormModels.ProPlayerInput> = {
 		full_name: '',
-		game_name: '',
-		game_ranking: undefined,
-		email: '',
-		password: '',
-		phone_number: ''
+		male: true,
+		ranking: undefined,
+		userId: ''
 	};
 
 	let submitting = false;
+	let users = [];
+
+	onMount(async () => {
+		loadUsers();
+	});
+
+	async function loadUsers() {
+		let { data, error } = await supabase.rpc('get_professional_users_profiles');
+		if (error) {
+			console.error('Error loading users:', error);
+		} else {
+			users = data;
+		}
+	}
 
 	function closeOverlay() {
 		overlayStore.update((storeValue) => (storeValue = false));
@@ -24,53 +37,32 @@
 		}
 	}
 
-	let user;
-	supabase.auth.onAuthStateChange(async (event, session) => {
-		if (event === 'SIGNED_IN') {
-			user = session.user;
-
-			// If signup is successful, we create the pro player with the user's id
-			let { error: insertError } = await supabase.rpc('create_pro_player', {
-				full_name: player.full_name,
-				game_name: player.game_name,
-				game_ranking: player.game_ranking,
-				email: player.email,
-				password: player.password,
-				user_id: user.id
-			});
-
-			if (insertError) {
-				console.error('Error inserting data:', insertError);
-			} else {
-				console.log('Data inserted successfully');
-				closeOverlay();
-			}
-
-			submitting = false;
-		}
-	});
-
 	async function handleSubmit() {
 		submitting = true;
 
-		// Sign up the user using supabase's Auth API
-		let { error: signUpError } = await supabase.auth.signUp({
-			email: player.email,
-			password: player.password
+		// Create a new ProPlayer
+		let { error: insertError } = await supabase.rpc('create_pro_player', {
+			full_name: player.full_name,
+			male: player.male,
+			ranking: player.ranking,
+			userId: player.userId
 		});
 
-		if (signUpError) {
-			console.error('Error signing up:', signUpError);
-			submitting = false;
-			return;
+		if (insertError) {
+			console.error('Error inserting data:', insertError);
+		} else {
+			console.log('Data inserted successfully');
+			closeOverlay();
 		}
-	}
 
+		submitting = false;
+	}
 </script>
 
 <div
 	class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
 	on:click={handleOutsideClick}
+	on:keydown={handleOutsideClick}
 	transition:fade={{ duration: 200 }}
 >
 	<div class="relative bg-white p-4 rounded-lg max-w-xl w-full">
@@ -109,13 +101,12 @@
 			</label>
 
 			<label class="label text-black">
-				<span style="font-weight:bold;">Game Name</span>
-				<input
-					class="input text-white"
-					type="text"
-					bind:value={player.game_name}
-					placeholder="Enter game name here..."
-				/>
+				<span style="font-weight:bold;">User</span>
+				<select bind:value={player.userId}>
+					{#each users as user}
+						<option value={user.id}>{user.username}</option>
+					{/each}
+				</select>
 			</label>
 
 			<label class="label text-black">
@@ -123,39 +114,14 @@
 				<input
 					class="input text-white"
 					type="number"
-					bind:value={player.game_ranking}
+					bind:value={player.ranking}
 					placeholder="Enter game ranking here..."
 				/>
 			</label>
 
 			<label class="label text-black">
-				<span style="font-weight:bold;">Phone Number</span>
-				<input
-					class="input text-white"
-					type="text"
-					bind:value={player.phone_number}
-					placeholder="Enter phone number here..."
-				/>
-			</label>
-
-			<label class="label text-black">
-				<span style="font-weight:bold;">Email</span>
-				<input
-					class="input text-white"
-					type="email"
-					bind:value={player.email}
-					placeholder="Enter email here..."
-				/>
-			</label>
-
-			<label class="label text-black">
-				<span style="font-weight:bold;">Password</span>
-				<input
-					class="input text-white"
-					type="password"
-					bind:value={player.password}
-					placeholder="Enter password here..."
-				/>
+				<span style="font-weight:bold;">Male</span>
+				<input type="checkbox" bind:checked={player.male} />
 			</label>
 
 			<button type="submit" class="btn mt-4 bg-red-600">Submit</button>

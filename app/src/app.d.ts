@@ -1,9 +1,31 @@
-// See https://kit.svelte.dev/docs/types#app
-// for information about these interfaces
-// and what to do when importing types
 declare namespace App {
-	// interface Locals {}
-	// interface PageData {}
-	// interface Error {}
-	// interface Platform {}
+  namespace FormModels {
+    interface ProPlayerInput {
+      userId: string;
+      full_name: string;
+      male: boolean;
+      ranking: number;
+    }
+
+    interface VenueInput {
+      id?: string;
+      name: string;
+      location: string;
+      contact_person: string;
+      contact_email: string;
+      seating_capacity: number;
+      created_at?: string;
+      updated_at?: string;
+    }
+
+    interface SponsorInput {
+      id?: string;
+      company_name: string;
+      company_url: string;
+      contact_person: string;
+      contact_email: string;
+      created_at?: string;
+      updated_at?: string;
+    }
+  }
 }
