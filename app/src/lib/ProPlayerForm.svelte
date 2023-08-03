@@ -8,7 +8,7 @@
 		full_name: '',
 		male: true,
 		ranking: undefined,
-		userId: ''
+		id: ''
 	};
 
 	let submitting = false;
@@ -39,13 +39,13 @@
 
 	async function handleSubmit() {
 		submitting = true;
-
+		
 		// Create a new ProPlayer
 		let { error: insertError } = await supabase.rpc('create_pro_player', {
 			full_name: player.full_name,
 			male: player.male,
 			ranking: player.ranking,
-			userId: player.userId
+			id: player.userId // Use the UUID from the user selected in the form
 		});
 
 		if (insertError) {
@@ -57,6 +57,7 @@
 
 		submitting = false;
 	}
+
 </script>
 
 <div

@@ -1,7 +1,7 @@
 declare namespace App {
   namespace FormModels {
     interface ProPlayerInput {
-      userId: string;
+      id: string;
       full_name: string;
       male: boolean;
       ranking: number;
