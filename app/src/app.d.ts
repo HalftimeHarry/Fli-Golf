@@ -27,5 +27,13 @@ declare namespace App {
       created_at?: string;
       updated_at?: string;
     }
+
+    interface Player {
+      name: string;
+      rank: string;
+      dominace_index: string;
+      profile: string;
+    }
+
   }
 }

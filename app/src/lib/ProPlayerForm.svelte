@@ -27,6 +27,20 @@
 		}
 	}
 
+	async function loadUserName(userId) {
+		let { data: profiles, error } = await supabase
+			.from('profiles')
+			.select('username')
+			.eq('id', userId);
+
+		if (error) {
+			console.error('Error loading username:', error);
+		} else {
+			console.log(profiles);
+			return profiles[0].username;
+		}
+	}
+
 	function closeOverlay() {
 		overlayStore.update((storeValue) => (storeValue = false));
 	}
@@ -39,10 +53,15 @@
 
 	async function handleSubmit() {
 		submitting = true;
-		
+
+		// Fetch the username for the selected user
+		let username = await loadUserName(player.userId);
+
+		console.log(username);
+
 		// Create a new ProPlayer
 		let { error: insertError } = await supabase.rpc('create_pro_player', {
-			full_name: player.full_name,
+			full_name: username,
 			male: player.male,
 			ranking: player.ranking,
 			id: player.userId // Use the UUID from the user selected in the form
@@ -57,7 +76,6 @@
 
 		submitting = false;
 	}
-
 </script>
 
 <div
@@ -91,16 +109,6 @@
 
 		<!-- Form -->
 		<form class="modal-form" on:submit|preventDefault={handleSubmit}>
-			<label class="label text-black">
-				<span style="font-weight:bold;">Full Name</span>
-				<input
-					class="input text-white"
-					type="text"
-					bind:value={player.full_name}
-					placeholder="Enter full name here..."
-				/>
-			</label>
-
 			<label class="label text-black">
 				<span style="font-weight:bold;">User</span>
 				<select bind:value={player.userId}>
