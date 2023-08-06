@@ -36,7 +36,6 @@
 		if (error) {
 			console.error('Error loading username:', error);
 		} else {
-			console.log(profiles);
 			return profiles[0].username;
 		}
 	}
