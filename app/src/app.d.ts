@@ -31,9 +31,22 @@ declare namespace App {
     interface Player {
       name: string;
       rank: string;
-      dominace_index: string;
+      dominance_index: string; // corrected the spelling of 'dominance'
       profile: string;
     }
 
+    interface CampaignInput {
+      id?: string;
+      campaign_type: string;
+      offer_type: string;
+      notes: string[];
+      start_date: Date;
+      end_date: Date;
+      is_active?: boolean;
+      offer_status?: string;
+      target_id?: string;
+      created_at?: Date;
+      updated_at?: Date;
+    }
   }
 }

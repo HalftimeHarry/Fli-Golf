@@ -5,6 +5,7 @@
 	import SponsorForm from '/workspace/Fli-Golf/app/src/lib/SponsorForm.svelte';
 	import VenueForm from '/workspace/Fli-Golf/app/src/lib/VenueForm.svelte';
 	import ProPlayerForm from '/workspace/Fli-Golf/app/src/lib/ProPlayerForm.svelte';
+	import CampaignForm from '/workspace/Fli-Golf/app/src/lib/CampaignForm.svelte';
 
 	let showOverlay: boolean = false;
 	let selectedForm: string = '';
@@ -55,6 +56,13 @@
 				Create Pro Player
 				<!-- ...existing SVG... -->
 			</button>
+			<button
+				on:click={() => toggleOverlay('campaign')}
+				class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
+			>
+				Create Campaign
+				<!-- ...existing SVG... -->
+			</button>
 		</div>
 	</div>
 </section>
@@ -72,6 +80,8 @@
 			<VenueForm />
 		{:else if selectedForm === 'proplayer'}
 			<ProPlayerForm />
+		{:else if selectedForm === 'campaign'}
+			<CampaignForm />
 		{/if}
 	</div>
 {/if}
