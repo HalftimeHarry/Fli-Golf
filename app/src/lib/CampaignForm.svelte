@@ -2,6 +2,9 @@
 	import { supabase } from '../supabaseClient';
 	import { overlayStore } from '../lib/overlayStore';
 	import { fade } from 'svelte/transition';
+	import SignPro from './SignPro.svelte';
+	import GetSponsorship from './GetSponsorship.svelte';
+	import FindVenue from './FindVenue.svelte';
 
 	let currentStep = 1;
 	let campaign: Partial<App.FormModels.CampaignInput> = {
@@ -15,6 +18,8 @@
 
 	let submitting = false;
 	let professionals = [];
+	let selectedCampaignTypeLabel = '';
+	let myData = { campaign_type: null }; // Or some default state
 
 	const campaignTypes = [
 		{ label: 'Sign Pro', value: 'sign_pro' },
@@ -22,24 +27,32 @@
 		{ label: 'Find Venue', value: 'find_venue' }
 	];
 
+	$: selectedCampaignTypeLabel =
+		campaignTypes.find((type) => type.value === campaign.campaign_type)?.label || '';
+
 	async function loadProfessionals() {
 		let { data, error } = await supabase.from('professional').select('*');
 		if (error) {
 			console.error('Error loading professionals:', error);
 		} else {
-			professionals = data;
+			const pros = data;
 		}
 	}
 
 	loadProfessionals();
 
 	function closeOverlay() {
-		overlayStore.update((storeValue) => (storeValue = false));
+		setTimeout(() => {
+			overlayVisible = false;
+		}, 50);
 	}
 
-	function handleOutsideClick(e) {
-		if (e.target === e.currentTarget) {
-			closeOverlay();
+
+	function handleOutsideClick(event) {
+		console.log("Clicked outside:", event.target);
+		if (event.target === event.currentTarget) {
+			console.log("Condition met");
+			closeOverlay();  // Assuming this function closes the overlay
 		}
 	}
 
@@ -98,34 +111,62 @@
 		<form class="modal-form" on:submit|preventDefault={handleSubmit}>
 			{#if currentStep === 1}
 				<!-- Step 1: Choose Campaign Type -->
+				<!-- Campaign Type Selection -->
 				<fieldset>
 					<legend class="text-lg font-semibold text-black mb-2">Select Campaign Type:</legend>
-					{#each campaignTypes as type}
-						<label class="block mb-2 text-black">
-							<input type="radio" bind:group={campaign.campaign_type} value={type.value} />
-							{type.label}
-						</label>
-					{/each}
+					<label class="block mb-2 text-black">
+						<input type="radio" bind:group={campaign.campaign_type} value="sign_pro" />
+						Sign Pro
+					</label>
+					<label class="block mb-2 text-black">
+						<input type="radio" bind:group={campaign.campaign_type} value="money" />
+						Money
+					</label>
+					<label class="block mb-2 text-black">
+						<input type="radio" bind:group={campaign.campaign_type} value="time" />
+						Time
+					</label>
+					<label class="block mb-2 text-black">
+						<input type="radio" bind:group={campaign.campaign_type} value="use of space" />
+						Use of Space
+					</label>
 				</fieldset>
 				<button on:click|preventDefault={nextStep} class="btn mt-4 bg-blue-600 text-white"
 					>Next</button
 				>
 			{:else if currentStep === 2}
-				<!-- Step 2: General Details -->
-				<!--... Include general form fields ...-->
+				<div on:click={handleOutsideClick} class="outside-click-container">
+					<h2 class="text-xl font-bold mb-4 text-black">{selectedCampaignTypeLabel}</h2>
+
+					{#if campaign.campaign_type === 'sign_pro'}
+						<SignPro bind:campaign />
+					{:else if campaign.campaign_type === 'get_sponsorship'}
+						<GetSponsorship bind:campaign />
+					{:else if campaign.campaign_type === 'find_venue'}
+						<FindVenue bind:campaign />
+					{/if}
+				</div>
+
 				<button on:click|preventDefault={prevStep} class="btn mt-4 bg-gray-600">Back</button>
 				<button on:click|preventDefault={nextStep} class="btn mt-4 bg-blue-600">Next</button>
 			{:else if currentStep === 3}
-				<!-- Step 3: Campaign Specific Details -->
-				<!--... Include form fields depending on campaign.type ...-->
+				<!-- Step 3: Campaign Specific Details or other details -->
+				<!--... Whatever else you want to display for step 3 ...-->
+
 				<button on:click|preventDefault={prevStep} class="btn mt-4 bg-gray-600">Back</button>
 				<button on:click|preventDefault={nextStep} class="btn mt-4 bg-blue-600">Next</button>
 			{:else if currentStep === 4}
 				<!-- Step 4: Review & Submit -->
+				<h2 class="text-xl font-bold mb-4 text-black">{selectedCampaignTypeLabel}</h2>
 				<!--... Display a summary of the campaign data ...-->
-				<button on:click|preventDefault={prevStep} class="btn mt-4 bg-gray-600">Back</button>
-				<button type="submit" class="btn mt-4 bg-red-600">Create Campaign</button>
+				<!--... Rest of the buttons ...-->
 			{/if}
 		</form>
 	</div>
 </div>
+
+<style>
+.visible {
+    display: block;
+}
+</style>

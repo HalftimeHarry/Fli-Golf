@@ -31,22 +31,38 @@ declare namespace App {
     interface Player {
       name: string;
       rank: string;
-      dominance_index: string; // corrected the spelling of 'dominance'
+      dominance_index: string; 
       profile: string;
     }
 
     interface CampaignInput {
-      id?: string;
-      campaign_type: string;
-      offer_type: string;
-      notes: string[];
-      start_date: Date;
-      end_date: Date;
-      is_active?: boolean;
-      offer_status?: string;
-      target_id?: string;
-      created_at?: Date;
-      updated_at?: Date;
+        campaign_type: 'sign' | 'money' | 'time' | 'use of space';
+        offer_type: 'amount' | 'time_start_end' | 'facility';
+        notes: string[];
+        start_date: Date;
+        end_date: Date;
+        is_active?: boolean;
+        offer_status?: 'active' | 'ended' | 'suspended' | 'canceled';
+        created_at?: Date;
+        updated_at?: Date;
+        target_id?: string;
+    }
+
+    interface OfferInput {
+        userId: string;
+        campaign_type: string;
+        offer_type: string;
+        notes: string[];
+        start_date: Date;
+        end_date: Date;
+        offered: number;
+    }
+
+    // New type definition for GetProfessional
+    interface GetProfessional {
+      id: string;
+      full_name: string;
+      // Add any other fields as necessary
     }
   }
 }
