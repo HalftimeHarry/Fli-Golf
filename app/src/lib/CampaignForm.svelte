@@ -7,7 +7,7 @@
 	import FindVenue from './FindVenue.svelte';
 
 	let currentStep = 1;
-	let campaign: Partial<App.FormModels.CampaignInput> = {
+	export let campaign: Partial<App.FormModels.CampaignInput> = {
 		campaign_type: '',
 		offer_type: '',
 		notes: [],
@@ -20,6 +20,7 @@
 	let professionals = [];
 	let selectedCampaignTypeLabel = '';
 	let overlayVisible = true;
+
 
 	const campaignTypes = [
 		{ label: 'Sign Pro', value: 'sign_pro', description: 'Description for Sign Pro' },

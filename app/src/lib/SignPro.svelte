@@ -5,26 +5,38 @@
 	import { onMount } from 'svelte';
 
 	let today = new Date();
-
+	let isLoading = true;
 	let submitting = false;
+
 	let pros: App.FormModels.GetProfessional[] = [];
+
+	function formatDate(date) {
+		const d = new Date(date);
+		let month = '' + (d.getMonth() + 1);
+		let day = '' + d.getDate();
+		const year = d.getFullYear();
+
+		if (month.length < 2) 
+			month = '0' + month;
+		if (day.length < 2) 
+			day = '0' + day;
+
+		return [year, month, day].join('-');
+	}
+
 	let offer: Partial<App.FormModels.OfferInput> = {
 		userId: '',
 		campaign_type: 'sign',
 		offer_type: 'amount',
 		notes: [],
-		start_date: today,
-		end_date: addDays(today, 60),
+		start_date: formatDate(today),
+		end_date: formatDate(addDays(today, 60)), // Add a comma here
 		offered: 0
 	};
 
-	onMount(() => {
-		loadPros();
-	});
+	onMount(loadPros);
 
-	$: if (pros && pros.length) {
-		console.log(pros);
-	}
+	$: console.log('Updated pros:', pros);
 
 	function addDays(date: Date, days: number): Date {
 		let newDate = new Date(date);
@@ -33,24 +45,30 @@
 	}
 
 	async function loadPros() {
+		isLoading = true;
 		try {
-			// Fetch professionals from the database
 			const { data, error } = await supabase.from('professional').select('id, full_name');
+			console.log('Response from database:', data, error);
+
+			if (data) {
+				pros = [...data];
+			} else {
+				pros = [];
+			}
 
 			if (error) {
 				console.error('Error loading professionals:', error);
-				pros = []; // Reset to an empty array in case of error
-			} else {
-				// Safely set 'pros' with the fetched data or default to an empty array
-				pros = data ? [...data] : [];
+				pros = [];
 			}
 		} catch (e) {
-			// Handle unexpected errors
 			console.error('Unexpected error while loading professionals:', e);
-			pros = []; // Reset to an empty array in case of unexpected errors
-
+			pros = [];
+		} finally {
+			isLoading = false;
 		}
 	}
+
+	$: pros;
 
 	async function handleSubmit() {
 		submitting = true;
@@ -74,11 +92,15 @@
 <form class="modal-form" on:submit|preventDefault={handleSubmit}>
 	<label class="label text-black">
 		<span style="font-weight:bold;">Pro</span>
-		<select bind:value={offer.userId}>
-			{#each pros as pro}
-				<option value={pro.id}>{pro.full_name}</option>
-			{/each}
-		</select>
+		{#if isLoading}
+			<p>Loading...</p>
+		{:else}
+			<select bind:value={offer.userId}>
+				{#each pros as pro}
+					<option value={pro.id}>{pro.full_name}</option>
+				{/each}
+			</select>
+		{/if}
 	</label>
 	<!-- Offered Amount -->
 	<label class="label text-black">
