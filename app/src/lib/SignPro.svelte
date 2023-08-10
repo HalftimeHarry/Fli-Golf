@@ -3,10 +3,12 @@
 	import { overlayStore } from '../lib/overlayStore';
 	import { fade } from 'svelte/transition';
 	import { onMount } from 'svelte';
+	import { writable } from 'svelte/store';
 
 	let today = new Date();
-	let isLoading = true;
+	const isLoading = writable(true);
 	let submitting = false;
+	export let campaign: Partial<App.FormModels.CampaignInput>;
 
 	let pros: App.FormModels.GetProfessional[] = [];
 
@@ -16,10 +18,8 @@
 		let day = '' + d.getDate();
 		const year = d.getFullYear();
 
-		if (month.length < 2) 
-			month = '0' + month;
-		if (day.length < 2) 
-			day = '0' + day;
+		if (month.length < 2) month = '0' + month;
+		if (day.length < 2) day = '0' + day;
 
 		return [year, month, day].join('-');
 	}
@@ -27,6 +27,7 @@
 	let offer: Partial<App.FormModels.OfferInput> = {
 		userId: '',
 		campaign_type: 'sign',
+		isLoading: false,
 		offer_type: 'amount',
 		notes: [],
 		start_date: formatDate(today),
@@ -34,9 +35,9 @@
 		offered: 0
 	};
 
-	onMount(loadPros);
-
-	$: console.log('Updated pros:', pros);
+	onMount(async () => {
+		await loadPros();
+	});
 
 	function addDays(date: Date, days: number): Date {
 		let newDate = new Date(date);
@@ -45,7 +46,7 @@
 	}
 
 	async function loadPros() {
-		isLoading = true;
+		isLoading.set(true);
 		try {
 			const { data, error } = await supabase.from('professional').select('id, full_name');
 			console.log('Response from database:', data, error);
@@ -58,17 +59,13 @@
 
 			if (error) {
 				console.error('Error loading professionals:', error);
-				pros = [];
 			}
 		} catch (e) {
 			console.error('Unexpected error while loading professionals:', e);
-			pros = [];
 		} finally {
-			isLoading = false;
+			isLoading.set(false);
 		}
 	}
-
-	$: pros;
 
 	async function handleSubmit() {
 		submitting = true;
@@ -92,7 +89,7 @@
 <form class="modal-form" on:submit|preventDefault={handleSubmit}>
 	<label class="label text-black">
 		<span style="font-weight:bold;">Pro</span>
-		{#if isLoading}
+		{#if $isLoading}
 			<p>Loading...</p>
 		{:else}
 			<select bind:value={offer.userId}>

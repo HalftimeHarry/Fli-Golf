@@ -21,7 +21,6 @@
 	let selectedCampaignTypeLabel = '';
 	let overlayVisible = true;
 
-
 	const campaignTypes = [
 		{ label: 'Sign Pro', value: 'sign_pro', description: 'Description for Sign Pro' },
 		{
@@ -34,6 +33,13 @@
 
 	$: selectedCampaignTypeLabel =
 		campaignTypes.find((type) => type.value === campaign.campaign_type)?.label || '';
+
+	$: {
+		console.log('Campaign Type:', campaign.campaign_type);
+		console.log('Campaign Types Array:', campaignTypes);
+		selectedCampaignTypeLabel =
+			campaignTypes.find((type) => type.value === campaign.campaign_type)?.label || '';
+	}
 
 	async function loadProfessionals() {
 		let { data, error } = await supabase.from('professional').select('*');
@@ -150,7 +156,7 @@
 					<h2 class="text-xl font-bold mb-4 text-black">{selectedCampaignTypeLabel}</h2>
 
 					{#if campaign.campaign_type === 'sign_pro'}
-						<SignPro bind:campaign />
+						<SignPro campaign={campaign} />
 					{:else if campaign.campaign_type === 'get_sponsorship'}
 						<GetSponsorship bind:campaign />
 					{:else if campaign.campaign_type === 'find_venue'}

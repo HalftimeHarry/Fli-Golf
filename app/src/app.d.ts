@@ -36,7 +36,7 @@ declare namespace App {
     }
 
     interface CampaignInput {
-        campaign_type: 'sign' | 'money' | 'time' | 'use of space';
+        campaign_type: 'sign_pro' | 'get_sponsor' | 'time' | 'use of space';
         offer_type: 'amount' | 'time_start_end' | 'facility';
         notes: string[];
         start_date: Date;
