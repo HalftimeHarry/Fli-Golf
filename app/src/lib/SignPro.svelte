@@ -18,9 +18,13 @@
 		offered: 0
 	};
 
-	onMount(async () => {
+	onMount(() => {
 		loadPros();
 	});
+
+	$: if (pros && pros.length) {
+		console.log(pros);
+	}
 
 	function addDays(date: Date, days: number): Date {
 		let newDate = new Date(date);
@@ -29,14 +33,22 @@
 	}
 
 	async function loadPros() {
-		let { data: professionals, error } = await supabase
-			.from('professional')
-			.select('id, full_name');
-		console.log(professionals);
-		if (error) {
-			console.error('Error loading professionals:', error);
-		} else {
-			pros = professionals;
+		try {
+			// Fetch professionals from the database
+			const { data, error } = await supabase.from('professional').select('id, full_name');
+
+			if (error) {
+				console.error('Error loading professionals:', error);
+				pros = []; // Reset to an empty array in case of error
+			} else {
+				// Safely set 'pros' with the fetched data or default to an empty array
+				pros = data ? [...data] : [];
+			}
+		} catch (e) {
+			// Handle unexpected errors
+			console.error('Unexpected error while loading professionals:', e);
+			pros = []; // Reset to an empty array in case of unexpected errors
+
 		}
 	}
 
@@ -51,6 +63,10 @@
 			closeOverlay();
 		}
 		submitting = false;
+	}
+
+	function closeOverlay() {
+		throw new Error('Function not implemented.');
 	}
 </script>
 
