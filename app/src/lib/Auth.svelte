@@ -76,35 +76,41 @@
 		<!-- Registration form -->
 		<div class="row flex-center flex">
 			<div class="col-6 form-widget" aria-live="polite">
-				<h1 class="header">Supabase + Svelte</h1>
-				<p class="description">Sign in via magic link with your email below</p>
-				<form class="form-widget" on:submit|preventDefault={handleSignUp}>
-					<div>
-						<label for="email">Email</label>
-						<input
-							id="email"
-							class="inputField text-black"
-							type="email"
-							placeholder="Your email"
-							bind:value={email}
-						/>
-					</div>
-					<div>
-						<label for="password">Password</label>
-						<input
-							id="password"
-							class="inputField text-black"
-							type="password"
-							placeholder="Your password"
-							bind:value={password}
-						/>
-					</div>
-					<div>
-						<button type="submit" class="button block" aria-live="polite" disabled={loading}>
-							<span>{loading ? 'Loading' : 'Register'}</span>
-						</button>
-					</div>
-				</form>
+				<h1 class="header">
+					<p class="description">Register with your email and password below</p>
+					<form class="form-widget" on:submit|preventDefault={handleSignUp}>
+						<div>
+							<label for="email">Email</label>
+							<input
+								id="email"
+								class="inputField text-black"
+								type="email"
+								placeholder="Your email"
+								bind:value={email}
+							/>
+						</div>
+						<div>
+							<label for="password">Password</label>
+							<input
+								id="password"
+								class="inputField text-black"
+								type="password"
+								placeholder="Your password"
+								bind:value={password}
+							/>
+						</div>
+						<div>
+							<button
+								type="submit"
+								class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+								aria-live="polite"
+								disabled={loading}
+							>
+								<span>{loading ? 'Loading' : 'Register'}</span>
+							</button>
+						</div>
+					</form>
+				</h1>
 			</div>
 		</div>
 	{/if}
@@ -113,14 +119,13 @@
 		<!-- Login form -->
 		<div class="row flex-center flex">
 			<div class="col-6 form-widget" aria-live="polite">
-				<h1 class="header">Supabase + Svelte</h1>
 				<p class="description">Sign in with your email and password below</p>
 				<form class="form-widget" on:submit|preventDefault={handleLogin}>
 					<div>
 						<label for="email">Email</label>
 						<input
 							id="email"
-							class="inputField"
+							class="inputField text-black"
 							type="email"
 							placeholder="Your email"
 							bind:value={email}
@@ -130,14 +135,19 @@
 						<label for="password">Password</label>
 						<input
 							id="password"
-							class="inputField"
+							class="inputField text-black"
 							type="password"
 							placeholder="Your password"
 							bind:value={password}
 						/>
 					</div>
 					<div>
-						<button type="submit" class="button block" aria-live="polite" disabled={loading}>
+						<button
+							type="submit"
+							class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+							aria-live="polite"
+							disabled={loading}
+						>
 							<span>{loading ? 'Loading' : 'Login'}</span>
 						</button>
 					</div>

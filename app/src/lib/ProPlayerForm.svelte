@@ -8,7 +8,7 @@
 		full_name: '',
 		male: true,
 		ranking: undefined,
-		id: ''
+		userId: ''
 	};
 
 	let submitting = false;
@@ -27,7 +27,7 @@
 		}
 	}
 
-	async function loadUserName(userId) {
+	async function loadUserName(userId: string | undefined) {
 		let { data: profiles, error } = await supabase
 			.from('profiles')
 			.select('username')
@@ -36,7 +36,7 @@
 		if (error) {
 			console.error('Error loading username:', error);
 		} else {
-			return profiles[0].username;
+			return profiles?.[0].username;
 		}
 	}
 

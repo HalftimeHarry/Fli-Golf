@@ -24,7 +24,7 @@
 	}
 
 	let offer: Partial<App.FormModels.OfferInput> = {
-		campaign_id: '',
+		campaign_id_ref_pro: '',
 		offered: 0
 	};
 
@@ -32,6 +32,8 @@
 		await loadPros();
 		await createCampaign();
 	});
+
+	export let days: number;
 
 	function addDays(date: Date, days: number): Date {
 		let newDate = new Date(date);
@@ -69,7 +71,7 @@
 		offer_type: 'amount',
 		notes: [],
 		start_date: formatDate(today),
-		end_date: formatDate(addDays(today, 60))
+		end_date: formatDate(addDays(today, days))
 	};
 
 	async function createCampaign() {
@@ -103,8 +105,6 @@
 
 		let { error } = await supabase.rpc('send_offer', { offer_details });
 
-		console.log('Offer details:', offer_details);
-
 		if (error) {
 			console.error('Error sending offer:', error);
 		} else {
@@ -115,7 +115,7 @@
 	}
 
 	function closeOverlay() {
-		throw new Error('Function not implemented.');
+		overlayStore.set(false); // Close the overlay by setting the store value to false
 	}
 </script>
 
@@ -139,5 +139,7 @@
 		<input type="number" bind:value={offer.offered} min="0" />
 	</label>
 
-	<button type="submit" class="btn mt-4 bg-red-600">Send Offer</button>
+	<button type="submit" class="btn mt-4 bg-red-600" disabled={submitting}>
+		{submitting ? 'Sending...' : 'Send Offer'}
+	</button>
 </form>

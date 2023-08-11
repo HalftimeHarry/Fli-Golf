@@ -1,7 +1,7 @@
 declare namespace App {
   namespace FormModels {
     interface ProPlayerInput {
-      id: string;
+      userId: string;
       full_name: string;
       male: boolean;
       ranking: number;
@@ -52,6 +52,12 @@ declare namespace App {
       professional_id: string;
       id: string;
       offered: number;
+    }
+
+    interface User {
+        id: string; // or number, depending on your data
+        username: string;
+        // any other fields that a user might have
     }
 
     // New type definition for GetProfessional

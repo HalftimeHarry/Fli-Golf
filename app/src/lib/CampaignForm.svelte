@@ -20,6 +20,7 @@
 	let professionals = [];
 	let selectedCampaignTypeLabel = '';
 	let overlayVisible = true;
+	export let days: number;
 
 	const campaignTypes = [
 		{ label: 'Sign Pro', value: 'sign_pro', description: 'Description for Sign Pro' },
@@ -33,6 +34,8 @@
 
 	$: selectedCampaignTypeLabel =
 		campaignTypes.find((type) => type.value === campaign.campaign_type)?.label || '';
+
+	$: campaign.end_date = new Date(campaign.start_date.getTime() + days * 24 * 60 * 60 * 1000);
 
 	$: {
 		console.log('Campaign Type:', campaign.campaign_type);
@@ -132,6 +135,20 @@
 					<!-- Campaign Type Selection -->
 					<fieldset>
 						<legend class="text-lg font-semibold text-black mb-2">Select Campaign Type:</legend>
+						<label for="days" class="block text-sm font-medium text-gray-700 mb-2"
+							>Number of days for this Campaign:</label
+						>
+						<input
+							type="number"
+							id="days"
+							bind:value={days}
+							min="1"
+							max="999"
+							class="w-16 p-2 border rounded-md shadow-sm text-sm leading-4 font-medium text-black focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+							inputmode="numeric"
+							pattern="[0-9]{(1, 3)}"
+						/>
+
 						<label class="block mb-2 text-black">
 							<input type="radio" bind:group={campaign.campaign_type} value="sign_pro" />
 							Sign Pro
@@ -156,7 +173,7 @@
 					<h2 class="text-xl font-bold mb-4 text-black">{selectedCampaignTypeLabel}</h2>
 
 					{#if campaign.campaign_type === 'sign_pro'}
-						<SignPro campaign={campaign} />
+						<SignPro {campaign} {days} />
 					{:else if campaign.campaign_type === 'get_sponsorship'}
 						<GetSponsorship bind:campaign />
 					{:else if campaign.campaign_type === 'find_venue'}
