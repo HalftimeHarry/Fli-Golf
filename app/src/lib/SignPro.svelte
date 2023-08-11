@@ -8,11 +8,10 @@
 	let today = new Date();
 	const isLoading = writable(true);
 	let submitting = false;
-	export let campaign: Partial<App.FormModels.CampaignInput>;
 
 	let pros: App.FormModels.GetProfessional[] = [];
 
-	function formatDate(date) {
+	function formatDate(date: string | number | Date) {
 		const d = new Date(date);
 		let month = '' + (d.getMonth() + 1);
 		let day = '' + d.getDate();
@@ -25,18 +24,13 @@
 	}
 
 	let offer: Partial<App.FormModels.OfferInput> = {
-		userId: '',
-		campaign_type: 'sign',
-		isLoading: false,
-		offer_type: 'amount',
-		notes: [],
-		start_date: formatDate(today),
-		end_date: formatDate(addDays(today, 60)), // Add a comma here
+		campaign_id: '',
 		offered: 0
 	};
 
 	onMount(async () => {
 		await loadPros();
+		await createCampaign();
 	});
 
 	function addDays(date: Date, days: number): Date {
@@ -67,9 +61,49 @@
 		}
 	}
 
+	let campaignId = '';
+
+	let campaign: Partial<App.FormModels.CampaignInput> = {
+		userid: '',
+		campaign_type: 'sign',
+		offer_type: 'amount',
+		notes: [],
+		start_date: formatDate(today),
+		end_date: formatDate(addDays(today, 60))
+	};
+
+	async function createCampaign() {
+		const { data, error } = await supabase.rpc('create_campaign', {
+			campaign_type_param: campaign.campaign_type,
+			offer_type_param: campaign.offer_type,
+			notes_param: campaign.notes,
+			start_date_param: campaign.start_date,
+			end_date_param: campaign.end_date
+		});
+
+		if (error) {
+			console.error('Error creating campaign:', error);
+			return;
+		}
+		console.log('Returned UUID from create_campaign:', data);
+		campaignId = data;
+	}
+
 	async function handleSubmit() {
 		submitting = true;
-		let { error } = await supabase.rpc('send_offer', offer);
+		console.log('Campaign ID:', campaignId);
+		// Construct the correct offer_details object
+		const offer_details = {
+			campaign_id_ref_pro: campaignId, // Use the campaignId variable
+			professional_id: offer.id,
+			offered: offer.offered,
+			start_date: campaign.start_date,
+			end_date: campaign.end_date
+		};
+
+		let { error } = await supabase.rpc('send_offer', { offer_details });
+
+		console.log('Offer details:', offer_details);
 
 		if (error) {
 			console.error('Error sending offer:', error);
@@ -92,7 +126,7 @@
 		{#if $isLoading}
 			<p>Loading...</p>
 		{:else}
-			<select bind:value={offer.userId}>
+			<select bind:value={offer.id}>
 				{#each pros as pro}
 					<option value={pro.id}>{pro.full_name}</option>
 				{/each}
@@ -103,17 +137,6 @@
 	<label class="label text-black">
 		<span style="font-weight:bold;">Offered Amount</span>
 		<input type="number" bind:value={offer.offered} min="0" />
-	</label>
-
-	<!-- Start and End Dates -->
-	<label class="label text-black">
-		<span style="font-weight:bold;">Start Date</span>
-		<input type="date" bind:value={offer.start_date} />
-	</label>
-
-	<label class="label text-black">
-		<span style="font-weight:bold;">End Date</span>
-		<input type="date" bind:value={offer.end_date} />
 	</label>
 
 	<button type="submit" class="btn mt-4 bg-red-600">Send Offer</button>

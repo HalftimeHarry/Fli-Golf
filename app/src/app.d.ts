@@ -36,33 +36,28 @@ declare namespace App {
     }
 
     interface CampaignInput {
-        campaign_type: 'sign_pro' | 'get_sponsor' | 'time' | 'use of space';
-        offer_type: 'amount' | 'time_start_end' | 'facility';
-        notes: string[];
-        start_date: Date;
-        end_date: Date;
-        is_active?: boolean;
-        offer_status?: 'active' | 'ended' | 'suspended' | 'canceled';
-        created_at?: Date;
-        updated_at?: Date;
-        target_id?: string;
+      campaign_type: 'sign' | 'get_sponsor' | 'time' | 'use of space';
+      offer_type: 'amount' | 'time_start_end' | 'facility';
+      notes: string[];
+      start_date: Date;
+      end_date: Date;
+      is_active?: boolean;
+      offer_status?: 'active' | 'ended' | 'suspended' | 'canceled';
+      created_at?: Date;
+      updated_at?: Date;
     }
 
     interface OfferInput {
-        userId: string;
-        campaign_type: string;
-        offer_type: string;
-        notes: string[];
-        start_date: Date;
-        end_date: Date;
-        offered: number;
+      campaign_id_ref_pro: string;
+      professional_id: string;
+      id: string;
+      offered: number;
     }
 
     // New type definition for GetProfessional
     interface GetProfessional {
       id: string;
       full_name: string;
-      // Add any other fields as necessary
     }
   }
 }
