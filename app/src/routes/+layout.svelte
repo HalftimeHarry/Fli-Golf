@@ -6,45 +6,42 @@
 	// Most of your app wide CSS should be put in this file
 	import '../app.postcss';
 	import { AppShell, AppBar } from '@skeletonlabs/skeleton';
-	
+	import authStore from '/workspace/Fli-Golf/app/src/lib/AuthStore';
+
+	function setFormToRegister() {
+		authStore.update((state) => {
+			state.formType = 'register';
+			return state;
+		});
+	}
+
+	function setFormToLogin() {
+		authStore.update((state) => {
+			state.formType = 'login';
+			return state;
+		});
+	}
 </script>
 
 <!-- App Shell -->
 <AppShell>
 	<svelte:fragment slot="header">
-		<!-- App Bar -->
 		<AppBar>
 			<svelte:fragment slot="lead">
 				<strong class="text-xl uppercase">FLI GOLF</strong>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
-				<a
-					class="btn btn-sm variant-ghost-surface"
-					href="https://discord.gg/EXqV7W8MtY"
-					target="_blank"
-					rel="noreferrer"
-				>
-					Discord
-				</a>
-				<a
-					class="btn btn-sm variant-ghost-surface"
-					href="https://twitter.com/SkeletonUI"
-					target="_blank"
-					rel="noreferrer"
-				>
-					Twitter
-				</a>
-				<a
-					class="btn btn-sm variant-ghost-surface"
-					href="https://github.com/skeletonlabs/skeleton"
-					target="_blank"
-					rel="noreferrer"
-				>
-					GitHub
-				</a>
+				<!-- ... Your existing buttons ... -->
+				<button class="btn btn-sm variant-ghost-surface" on:click={setFormToRegister}>
+					Register
+				</button>
+				<button class="btn btn-sm variant-ghost-surface" on:click={setFormToLogin}>
+					Sign In
+				</button>
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
+
 	<!-- Page Route Content -->
 	<slot />
 </AppShell>

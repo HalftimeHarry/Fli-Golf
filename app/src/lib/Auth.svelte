@@ -1,11 +1,16 @@
 <script lang="ts">
 	import { supabase } from '/workspace/Fli-Golf/app/src/supabaseClient';
 	import { fly } from 'svelte/transition';
+	import authStore from '/workspace/Fli-Golf/app/src/lib/AuthStore';
 
 	let loading = false;
 	let email = '';
 	let password = '';
 	let formType = ''; // Can be 'register' or 'login'
+
+	authStore.subscribe((state) => {
+		formType = state.formType;
+	});
 
 	const handleSignUp = async () => {
 		try {
@@ -59,76 +64,15 @@
 	};
 </script>
 
-<div
-	in:fly={{ y: 200, duration: 300 }}
-	out:fly={{ y: -200, duration: 300 }}
-	class="flex justify-center items-center flex-col"
->
-	<button
-		class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5"
-		on:click={() => (formType = 'register')}
-	>
-		Register
-	</button>
-	<button
-		class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5"
-		on:click={() => (formType = 'login')}
-	>
-		Sign In
-	</button>
-
-	{#if formType === 'register'}
-		<!-- Registration form -->
-		<div in:fly={{ x: -600, duration: 800 }} out:fly={{ x: 600, duration: 800 }}>
-			<!-- The rest of your RegistrationForm content goes here -->
-			<div class="row flex-center flex">
-				<div class="col-6 form-widget" aria-live="polite">
-					<h1 class="header">
-						<p class="description">Register with your email and password below</p>
-						<form class="form-widget" on:submit|preventDefault={handleSignUp}>
-							<div>
-								<label for="email">Email</label>
-								<input
-									id="email"
-									class="inputField text-black"
-									type="email"
-									placeholder="Your email"
-									bind:value={email}
-								/>
-							</div>
-							<div>
-								<label for="password">Password</label>
-								<input
-									id="password"
-									class="inputField text-black"
-									type="password"
-									placeholder="Your password"
-									bind:value={password}
-								/>
-							</div>
-							<div>
-								<button
-									type="submit"
-									class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-									aria-live="polite"
-									disabled={loading}
-								>
-									<span>{loading ? 'Loading' : 'Register'}</span>
-								</button>
-							</div>
-						</form>
-					</h1>
-				</div>
-			</div>
-		</div>
-	{/if}
-
-	{#if formType === 'login'}
-		<div in:fly={{ x: -600, duration: 800 }} out:fly={{ x: 600, duration: 800 }}>
-			<div class="row flex-center flex">
-				<div class="col-6 form-widget" aria-live="polite">
-					<p class="description">Sign in with your email and password below</p>
-					<form class="form-widget" on:submit|preventDefault={handleLogin}>
+{#if formType === 'register'}
+	<!-- Registration form -->
+	<div in:fly={{ x: -600, duration: 800 }} out:fly={{ x: 600, duration: 800 }}>
+		<!-- The rest of your RegistrationForm content goes here -->
+		<div class="flex justify-center items-center flex-col">
+			<div class="col-6 form-widget" aria-live="polite">
+				<h1 class="header">
+					<p class="description">Register with your email and password below</p>
+					<form class="form-widget" on:submit|preventDefault={handleSignUp}>
 						<div>
 							<label for="email">Email</label>
 							<input
@@ -156,12 +100,54 @@
 								aria-live="polite"
 								disabled={loading}
 							>
-								<span>{loading ? 'Loading' : 'Login'}</span>
+								<span>{loading ? 'Loading' : 'Register'}</span>
 							</button>
 						</div>
 					</form>
-				</div>
+				</h1>
 			</div>
 		</div>
-	{/if}
-</div>
+	</div>
+{/if}
+
+{#if formType === 'login'}
+	<div in:fly={{ x: -600, duration: 800 }} out:fly={{ x: 600, duration: 800 }}>
+		<div class="flex justify-center items-center flex-col">
+			<div class="col-6 form-widget" aria-live="polite">
+				<p class="description">Sign in with your email and password below</p>
+				<form class="form-widget" on:submit|preventDefault={handleLogin}>
+					<div>
+						<label for="email">Email</label>
+						<input
+							id="email"
+							class="inputField text-black"
+							type="email"
+							placeholder="Your email"
+							bind:value={email}
+						/>
+					</div>
+					<div>
+						<label for="password">Password</label>
+						<input
+							id="password"
+							class="inputField text-black"
+							type="password"
+							placeholder="Your password"
+							bind:value={password}
+						/>
+					</div>
+					<div>
+						<button
+							type="submit"
+							class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+							aria-live="polite"
+							disabled={loading}
+						>
+							<span>{loading ? 'Loading' : 'Login'}</span>
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{/if}
