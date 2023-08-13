@@ -1,9 +1,9 @@
 {
-  "version": 2,
   "builds": [
     {
       "src": "package.json",
-      "use": "@sveltejs/kit"
+      "use": "@sveltejs/kit",
+      "config": { "output": "output" }
     }
   ]
 }
