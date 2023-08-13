@@ -21,13 +21,17 @@
 		}
 
 		// Subscribe to session changes
-		supabase.auth.onAuthStateChange((event, session) => {
-			if (event === 'SIGNED_IN') {
+		supabase.auth.onAuthStateChange((event, sessionData) => {
+			session = sessionData; // Update the session variable with the received session data
+
+			if (event === 'SIGNED_IN' || event === 'USER_UPDATED') {
+				// USER_UPDATED event can also be added to cover cases where user data might have changed but not their authentication status
 				authStore.update((state) => {
 					state.isLoggedIn = true;
 					return state;
 				});
-			} else if (event === 'SIGNED_OUT') {
+			} else if (event === 'SIGNED_OUT' || event === 'USER_DELETED') {
+				// USER_DELETED can be added if you want to react when a user deletes their account
 				authStore.update((state) => {
 					state.isLoggedIn = false;
 					return state;
@@ -57,18 +61,29 @@
 		});
 	}
 
-	function handleLogout() {
-		authStore.update((state) => {
-			state.isLoggedIn = false;
-			return state;
-		});
-	}
+	async function handleUpdatePassword() {
+		if (session && session.user?.email) {
+			try {
+				const { data, error } = await supabase.auth.resetPasswordForEmail(session.user.email, {
+					redirectTo:
+						'https://5173-halftimeharry-fligolf-ivnbr6c5g1v.ws-us103.gitpod.io/account/update-password'
+				});
 
-	function handleUpdatePassword() {
-		authStore.update((state) => {
-			state.formType = 'updatePassword';
-			return state;
-		});
+				if (error) {
+					console.error('Error sending password reset email:', error.message);
+				} else {
+					console.log('Password reset email sent:', data);
+					authStore.update((state) => {
+						state.formType = 'updatePassword';
+						return state;
+					});
+				}
+			} catch (error) {
+				console.error('Exception caught:', error);
+			}
+		} else {
+			console.error('No user session available or email missing from session');
+		}
 	}
 </script>
 
@@ -87,7 +102,7 @@
 						Sign In
 					</button>
 				{:else}
-					<button class="btn btn-sm variant-ghost-surface" on:click={handleLogout}>
+					<button class="btn btn-sm variant-ghost-surface" on:click={() => supabase.auth.signOut()}>
 						Sign Out
 					</button>
 					<button class="btn btn-sm variant-ghost-surface" on:click={handleUpdatePassword}>
