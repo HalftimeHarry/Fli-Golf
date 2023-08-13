@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { supabase } from '/workspace/FliDiscGolf/app/src/supabaseClient';
+	import { supabase } from '/workspace/Fli-Golf/app/src/supabaseClient';
 	import { Table, tableMapperValues } from '@skeletonlabs/skeleton';
 	import type { TableSource } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
