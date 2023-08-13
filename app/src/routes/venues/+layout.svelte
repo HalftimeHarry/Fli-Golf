@@ -1,5 +1,5 @@
 <script lang="ts">
-	import AdminNavigation from '/workspace/FliDiscGolf/app/src/lib/AdminNavigation.svelte';
+	import AdminNavigation from '/workspace/Fli-Golf/app/src/lib/AdminNavigation.svelte';
 	import { goto } from '$app/navigation';
 
 	let currentTile: number = 0;
