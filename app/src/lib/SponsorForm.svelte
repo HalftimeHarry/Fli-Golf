@@ -9,7 +9,8 @@
 		company_name: '',
 		company_url: '',
 		contact_person: '',
-		contact_email: ''
+		contact_email: '',
+		phone_number: '' // Add this line
 	};
 
 	function closeOverlay() {
@@ -71,6 +72,16 @@
 					type="text"
 					bind:value={sponsor.company_name}
 					placeholder="Enter name here..."
+				/>
+			</label>
+
+			<label class="label text-black">
+				<span style="font-weight:bold;">Phone Number</span>
+				<input
+					class="input text-white"
+					type="text"
+					bind:value={sponsor.phone_number}
+					placeholder="Enter phone number here..."
 				/>
 			</label>
 
