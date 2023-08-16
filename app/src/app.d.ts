@@ -18,6 +18,42 @@ declare namespace App {
       updated_at?: string;
     }
 
+    // Updated definition for GetSponsor
+    interface GetSponsor {
+      id: string;
+      company_name: string;  // Based on the structure you've shown
+      phone_number: string;  // Based on your form
+      company_url: string;
+      contact_person: string;
+      contact_email: string;
+    }
+  }
+
+    interface OfferSponsorInputLevel {
+      campaign_id_ref_sponsor: string;
+      sponsor_id: string;
+      id: string;
+      sponsor_seleted_level: number;
+    }
+
+    interface OfferSponsorInputLevel {
+      campaign_id_ref_sponsor: string;
+      sponsor_id: string;
+      id: string;
+      sponsor_seleted_level: number;
+    }
+
+    interface SponsorInput {
+      id?: string;
+      company_name: string;
+      phone_number: string; // Added this field based on your form
+      company_url: string;
+      contact_person: string;
+      contact_email: string;
+      created_at?: string;
+      updated_at?: string;
+    }
+
     interface SponsorInput {
       id?: string;
       company_name: string;
@@ -66,4 +102,4 @@ declare namespace App {
       full_name: string;
     }
   }
-}
+

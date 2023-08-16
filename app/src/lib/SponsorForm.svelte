@@ -2,16 +2,57 @@
 	import { supabase } from '../supabaseClient';
 	import { overlayStore } from '../lib/overlayStore';
 	import { fade } from 'svelte/transition';
-	import { v4 as uuidv4 } from 'uuid';
+	import { onMount } from 'svelte';
 
-	let sponsor = {
-		id: '', // Add this line
+	let selectedSponsorId: string | undefined;
+	let sponsors: SponsorInput[] = [];
+	let selectedSponsor: SponsorInput = {
 		company_name: '',
+		phone_number: '',
 		company_url: '',
 		contact_person: '',
-		contact_email: '',
-		phone_number: '' // Add this line
+		contact_email: ''
 	};
+
+	onMount(async () => {
+		loadSponsors();
+	});
+
+	async function loadSponsors() {
+		let { data, error } = await supabase
+			.from<SponsorInput, Error>('sponsors')
+			.select('id, company_name');
+		if (error) {
+			console.error('Error loading sponsors:', error);
+		} else {
+			sponsors = data!;
+		}
+	}
+
+	async function loadSponsorDetails(sponsorId: string | undefined) {
+		let { data: sponsorDetails, error } = await supabase
+			.from<SponsorInput, Error>('sponsors')
+			.select('*')
+			.eq('id', sponsorId);
+
+		if (error) {
+			console.error('Error loading sponsor details:', error);
+		} else {
+			selectedSponsor = sponsorDetails![0];
+		}
+	}
+
+	async function handleSubmit() {
+		let { data, error } = await supabase
+			.from<SponsorInput, Error>('sponsors')
+			.insert([selectedSponsor]);
+		if (error) {
+			console.error('Error inserting data:', error);
+		} else {
+			console.log('Data inserted successfully:', data);
+			closeOverlay();
+		}
+	}
 
 	function closeOverlay() {
 		overlayStore.update((storeValue) => (storeValue = false));
@@ -19,17 +60,6 @@
 
 	function handleOutsideClick(e) {
 		if (e.target === e.currentTarget) {
-			closeOverlay();
-		}
-	}
-
-	async function handleSubmit() {
-		sponsor.id = uuidv4();
-		let { data, error } = await supabase.from('sponsors').insert([sponsor]);
-		if (error) {
-			console.error('Error inserting data:', error);
-		} else {
-			console.log('Data inserted successfully:', data);
 			closeOverlay();
 		}
 	}
@@ -63,14 +93,26 @@
 			</svg>
 		</button>
 
-		<!-- Form -->
+		<!-- Sponsor Form -->
 		<form class="modal-form" on:submit|preventDefault={handleSubmit}>
+			<label class="label text-black">
+				<span style="font-weight:bold;">Choose Sponsor</span>
+				<select
+					bind:value={selectedSponsorId}
+					on:change={() => loadSponsorDetails(selectedSponsorId)}
+				>
+					<option value="" disabled selected>Select a sponsor</option>
+					{#each sponsors as sponsor (sponsor.id)}
+						<option value={sponsor.id}>{sponsor.company_name}</option>
+					{/each}
+				</select>
+			</label>
 			<label class="label text-black">
 				<span style="font-weight:bold;">Company Name</span>
 				<input
 					class="input text-white"
 					type="text"
-					bind:value={sponsor.company_name}
+					bind:value={selectedSponsor.company_name}
 					placeholder="Enter name here..."
 				/>
 			</label>
@@ -80,7 +122,7 @@
 				<input
 					class="input text-white"
 					type="text"
-					bind:value={sponsor.phone_number}
+					bind:value={selectedSponsor.phone_number}
 					placeholder="Enter phone number here..."
 				/>
 			</label>
@@ -90,7 +132,7 @@
 				<input
 					class="input text-white"
 					type="text"
-					bind:value={sponsor.company_url}
+					bind:value={selectedSponsor.company_url}
 					placeholder="Enter URL here..."
 				/>
 			</label>
@@ -100,7 +142,7 @@
 				<input
 					class="input text-white"
 					type="text"
-					bind:value={sponsor.contact_person}
+					bind:value={selectedSponsor.contact_person}
 					placeholder="Enter contact person name here..."
 				/>
 			</label>
@@ -110,7 +152,7 @@
 				<input
 					class="input text-white"
 					type="email"
-					bind:value={sponsor.contact_email}
+					bind:value={selectedSponsor.contact_email}
 					placeholder="Enter email here..."
 				/>
 			</label>
