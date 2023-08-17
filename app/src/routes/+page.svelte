@@ -9,6 +9,7 @@
 	import { fade } from 'svelte/transition';
 	import ProDashboard from '$lib/ProDashboard.svelte';
 
+
 	let session: AuthSession;
 	let role: 'Admin' | 'Participant' | null = null;
 

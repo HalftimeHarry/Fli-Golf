@@ -7,6 +7,7 @@
 	import { onMount } from 'svelte';
 	import type { AuthSession } from '@supabase/supabase-js';
 	import { supabase } from '/workspace/Fli-Golf/app/src/supabaseClient';
+	import Banner from '/workspace/Fli-Golf/app/src/lib/Banner.svelte';
 
 	let session: AuthSession | null = null;
 	let role: 'Admin' | 'Participant' | null = null;
@@ -112,6 +113,8 @@
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
-
 	<slot />
+	{#if !session}
+		<Banner />
+	{/if}
 </AppShell>
