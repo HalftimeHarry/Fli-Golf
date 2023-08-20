@@ -96,17 +96,17 @@
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				{#if !session}
-					<button class="btn btn-sm variant-ghost-surface" on:click={setFormToRegister}>
+					<button class="btn btn-lg variant-ghost-surface" on:click={setFormToRegister}>
 						Register
 					</button>
-					<button class="btn btn-sm variant-ghost-surface" on:click={setFormToLogin}>
+					<button class="btn btn-lg variant-ghost-surface" on:click={setFormToLogin}>
 						Sign In
 					</button>
 				{:else}
-					<button class="btn btn-sm variant-ghost-surface" on:click={() => supabase.auth.signOut()}>
+					<button class="btn btn-lg variant-ghost-surface" on:click={() => supabase.auth.signOut()}>
 						Sign Out
 					</button>
-					<button class="btn btn-sm variant-ghost-surface" on:click={handleUpdatePassword}>
+					<button class="btn btn-lg variant-ghost-surface" on:click={handleUpdatePassword}>
 						Update Password
 					</button>
 				{/if}

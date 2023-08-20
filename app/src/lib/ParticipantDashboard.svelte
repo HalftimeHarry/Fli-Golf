@@ -10,7 +10,7 @@
 	};
 </script>
 
-<div class="fixed top-0 left-0 mt-16">
+<div class="fixed top-0 left-0 mt-64">
 	<h1 class="text-white">Participant Dashboard</h1>
 
 	<AppRail>
