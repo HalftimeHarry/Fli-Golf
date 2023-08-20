@@ -1,4 +1,4 @@
-import { c as create_ssr_component, e as escape, a as add_attribute, b as compute_slots, v as validate_component } from "../../chunks/index2.js";
+import { c as create_ssr_component, e as escape, a as add_attribute, b as compute_slots, d as each, v as validate_component } from "../../chunks/index2.js";
 import "../../chunks/ProgressBar.svelte_svelte_type_style_lang.js";
 import { a as authStore } from "../../chunks/AuthStore.js";
 import "../../chunks/supabaseClient.js";
@@ -147,6 +147,25 @@ const AppShell = create_ssr_component(($$result, $$props, $$bindings, slots) => 
 	
 	${$$slots.footer ? `<footer id="shell-footer" class="${"flex-none " + escape(classesFooter, true)}">${slots.footer ? slots.footer({}) : ``}</footer>` : ``}</div>`;
 });
+const Banner = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  let elemCarousel;
+  const unsplashIds = [
+    "vjUokUWbFOs",
+    "1aJuPtQJX_I",
+    "Jp6O3FFRdEI",
+    "I3C_eojFVQY",
+    "s0fXOuyTH1M",
+    "z_X0PxmBuIQ"
+  ];
+  return `<div class="card p-4 grid grid-cols-[auto_1fr_auto] gap-4 items-center">
+	<button type="button" class="btn-icon variant-filled"><i class="fas fa-arrow-left"></i></button>
+	
+	<div class="snap-x snap-mandatory scroll-smooth flex overflow-x-auto"${add_attribute("this", elemCarousel, 0)}>${each(unsplashIds, (unsplashId) => {
+    return `<img class="snap-center w-[1024px] rounded-container-token" src="${"https://source.unsplash.com/" + escape(unsplashId, true) + "/1024x768"}"${add_attribute("alt", unsplashId, 0)} loading="lazy">`;
+  })}</div>
+	
+	<button type="button" class="btn-icon variant-filled"><i class="fas fa-arrow-right"></i></button></div>`;
+});
 const Layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   authStore.subscribe((state) => {
     state.isLoggedIn;
@@ -169,7 +188,8 @@ const Layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
 	`;
     },
     default: () => {
-      return `${slots.default ? slots.default({}) : ``}`;
+      return `${slots.default ? slots.default({}) : ``}
+	${`${validate_component(Banner, "Banner").$$render($$result, {}, {}, {})}`}`;
     }
   })}`;
 });

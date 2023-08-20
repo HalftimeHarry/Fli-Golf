@@ -1,12 +1,12 @@
 <script lang="ts">
 	let elemCarousel: HTMLDivElement;
 	const unsplashIds = [
-		'vjUokUWbFOs',
-		'1aJuPtQJX_I',
-		'Jp6O3FFRdEI',
-		'I3C_eojFVQY',
-		's0fXOuyTH1M',
-		'z_X0PxmBuIQ'
+		'b2H6cWfg4Ps',
+		'ISC2XxlWXkw',
+		'B0jdi7HNig8',
+		'y85vZTvzd2g',
+		'8uYH5HGzVr8',
+		'c98GB-1OcKA'
 	];
 
 	function carouselLeft(): void {

@@ -1,4 +1,4 @@
-import { c as create_ssr_component, s as setContext, e as escape, f as compute_rest_props, g as getContext, a as add_attribute, h as spread, i as escape_attribute_value, j as escape_object, b as compute_slots, v as validate_component } from "./index2.js";
+import { c as create_ssr_component, s as setContext, e as escape, h as compute_rest_props, g as getContext, a as add_attribute, i as spread, j as escape_attribute_value, k as escape_object, b as compute_slots, v as validate_component } from "./index2.js";
 import "./ProgressBar.svelte_svelte_type_style_lang.js";
 import "./supabaseClient.js";
 const cBase$2 = "grid grid-rows-[auto_1fr_auto] overflow-y-auto";

@@ -1,4 +1,4 @@
-import { c as create_ssr_component, k as createEventDispatcher, e as escape, l as each, a as add_attribute, v as validate_component } from "../../../chunks/index2.js";
+import { c as create_ssr_component, l as createEventDispatcher, e as escape, d as each, a as add_attribute, v as validate_component } from "../../../chunks/index2.js";
 import "../../../chunks/supabaseClient.js";
 import "../../../chunks/ProgressBar.svelte_svelte_type_style_lang.js";
 const Table = create_ssr_component(($$result, $$props, $$bindings, slots) => {

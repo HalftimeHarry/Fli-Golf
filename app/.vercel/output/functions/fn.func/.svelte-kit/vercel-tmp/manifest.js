@@ -7,10 +7,10 @@ function __memo(fn) {
 return {
 	appDir: "_app",
 	appPath: "_app",
-	assets: new Set(["favicon.png"]),
-	mimeTypes: {".png":"image/png"},
+	assets: new Set(["dgi_1.jpg","dgi_2.jpg","disc_beach.jpg","disc_close.jpg","favicon.png","throw.jpg"]),
+	mimeTypes: {".jpg":"image/jpeg",".png":"image/png"},
 	_: {
-		client: {"start":"_app/immutable/entry/start.d42e7c53.js","app":"_app/immutable/entry/app.7b4cc7e1.js","imports":["_app/immutable/entry/start.d42e7c53.js","_app/immutable/chunks/index.638dec40.js","_app/immutable/chunks/singletons.1c15fdb5.js","_app/immutable/chunks/index.273d9960.js","_app/immutable/entry/app.7b4cc7e1.js","_app/immutable/chunks/preload-helper.a4192956.js","_app/immutable/chunks/index.638dec40.js"],"stylesheets":[],"fonts":[]},
+		client: {"start":"_app/immutable/entry/start.7fd8af19.js","app":"_app/immutable/entry/app.83244ef3.js","imports":["_app/immutable/entry/start.7fd8af19.js","_app/immutable/chunks/index.1b8d3cdb.js","_app/immutable/chunks/singletons.64f5b04f.js","_app/immutable/chunks/index.6821f402.js","_app/immutable/entry/app.83244ef3.js","_app/immutable/chunks/preload-helper.a4192956.js","_app/immutable/chunks/index.1b8d3cdb.js"],"stylesheets":[],"fonts":[]},
 		nodes: [
 			__memo(() => import('../output/server/nodes/0.js')),
 			__memo(() => import('../output/server/nodes/1.js')),

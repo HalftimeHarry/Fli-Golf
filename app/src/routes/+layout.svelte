@@ -90,9 +90,9 @@
 
 <AppShell>
 	<svelte:fragment slot="header">
-		<AppBar>
+		<AppBar class="bg-white">
 			<svelte:fragment slot="lead">
-				<strong class="text-xl uppercase">FLI GOLF</strong>
+				<img src="/FLIG_GREY.png" alt="FLI GOLF Logo" class="logo-class" />
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				{#if !session}
