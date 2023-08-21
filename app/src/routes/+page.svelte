@@ -3,11 +3,11 @@
 	import { supabase } from '../supabaseClient';
 	import type { AuthSession } from '@supabase/supabase-js';
 	import Account from '../lib/Account.svelte';
-	import Auth from '/lib/Auth.svelte';
-	import AdminDashboard from '/lib/AdminDashboard.svelte';
-	import ParticipantDashboard from '/lib/ParticipantDashboard.svelte';
+	import Auth from '../lib/Auth.svelte';
+	import AdminDashboard from '../lib/AdminDashboard.svelte';
+	import ParticipantDashboard from '../lib/ParticipantDashboard.svelte';
 	import { fade } from 'svelte/transition';
-	import ProDashboard from '/lib/ProDashboard.svelte';
+	import ProDashboard from '../lib/ProDashboard.svelte';
 
 	let session: AuthSession;
 	let role: 'Admin' | 'Participant' | null = null;
