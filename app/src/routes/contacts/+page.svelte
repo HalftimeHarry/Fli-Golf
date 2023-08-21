@@ -2,10 +2,10 @@
 	import { overlayStore } from '../../lib/overlayStore';
 	import { onDestroy } from 'svelte';
 	import { fade } from 'svelte/transition'; // import fade
-	import SponsorForm from '/lib/SponsorForm.svelte';
-	import VenueForm from '/lib/VenueForm.svelte';
-	import ProPlayerForm from '/lib/ProPlayerForm.svelte';
-	import CampaignForm from '/lib/CampaignForm.svelte';
+	import SponsorForm from '$lib/SponsorForm.svelte';
+	import VenueForm from '$lib/VenueForm.svelte';
+	import ProPlayerForm from '$lib/ProPlayerForm.svelte';
+	import CampaignForm from '$lib/CampaignForm.svelte';
 
 	let showOverlay: boolean = false;
 	let selectedForm: string = '';
