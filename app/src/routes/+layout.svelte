@@ -3,11 +3,11 @@
 	import '@skeletonlabs/skeleton/styles/skeleton.css';
 	import '../app.postcss';
 	import { AppShell, AppBar } from '@skeletonlabs/skeleton';
-	import authStore from '/workspace/Fli-Golf/app/src/lib/AuthStore';
+	import authStore from '../lib/AuthStore';
 	import { onMount } from 'svelte';
 	import type { AuthSession } from '@supabase/supabase-js';
-	import { supabase } from '/workspace/Fli-Golf/app/src/supabaseClient';
-	import Banner from '/workspace/Fli-Golf/app/src/lib/Banner.svelte';
+	import { supabase } from '../supabaseClient';
+	import Banner from '/lib/Banner.svelte';
 
 	let session: AuthSession | null = null;
 	let role: 'Admin' | 'Participant' | null = null;

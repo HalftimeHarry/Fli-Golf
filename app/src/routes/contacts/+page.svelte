@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { overlayStore } from '/workspace/Fli-Golf/app/src/lib/overlayStore';
+	import { overlayStore } from '../../lib/overlayStore';
 	import { onDestroy } from 'svelte';
 	import { fade } from 'svelte/transition'; // import fade
-	import SponsorForm from '/workspace/Fli-Golf/app/src/lib/SponsorForm.svelte';
-	import VenueForm from '/workspace/Fli-Golf/app/src/lib/VenueForm.svelte';
-	import ProPlayerForm from '/workspace/Fli-Golf/app/src/lib/ProPlayerForm.svelte';
-	import CampaignForm from '/workspace/Fli-Golf/app/src/lib/CampaignForm.svelte';
+	import SponsorForm from '/lib/SponsorForm.svelte';
+	import VenueForm from '/lib/VenueForm.svelte';
+	import ProPlayerForm from '/lib/ProPlayerForm.svelte';
+	import CampaignForm from '/lib/CampaignForm.svelte';
 
 	let showOverlay: boolean = false;
 	let selectedForm: string = '';

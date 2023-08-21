@@ -150,12 +150,12 @@ const AppShell = create_ssr_component(($$result, $$props, $$bindings, slots) => 
 const Banner = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let elemCarousel;
   const unsplashIds = [
-    "vjUokUWbFOs",
-    "1aJuPtQJX_I",
-    "Jp6O3FFRdEI",
-    "I3C_eojFVQY",
-    "s0fXOuyTH1M",
-    "z_X0PxmBuIQ"
+    "b2H6cWfg4Ps",
+    "ISC2XxlWXkw",
+    "B0jdi7HNig8",
+    "y85vZTvzd2g",
+    "8uYH5HGzVr8",
+    "c98GB-1OcKA"
   ];
   return `<div class="card p-4 grid grid-cols-[auto_1fr_auto] gap-4 items-center">
 	<button type="button" class="btn-icon variant-filled"><i class="fas fa-arrow-left"></i></button>
@@ -173,16 +173,16 @@ const Layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   });
   return `${validate_component(AppShell, "AppShell").$$render($$result, {}, {}, {
     header: () => {
-      return `${validate_component(AppBar, "AppBar").$$render($$result, {}, {}, {
+      return `${validate_component(AppBar, "AppBar").$$render($$result, { class: "bg-white" }, {}, {
         trail: () => {
-          return `${`<button class="btn btn-sm variant-ghost-surface">Register
+          return `${`<button class="btn btn-lg variant-ghost-surface">Register
 					</button>
-					<button class="btn btn-sm variant-ghost-surface">Sign In
+					<button class="btn btn-lg variant-ghost-surface">Sign In
 					</button>`}
 			`;
         },
         lead: () => {
-          return `<strong class="text-xl uppercase">FLI GOLF</strong>`;
+          return `<img src="/FLIG_GREY.png" alt="FLI GOLF Logo" class="logo-class">`;
         }
       })}
 	`;

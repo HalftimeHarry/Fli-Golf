@@ -2,7 +2,7 @@
 <script lang="ts">
 	import { AppRail, AppRailTile, AppRailAnchor } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation'; // Import 'goto'
-	import { supabase } from '/workspace/Fli-Golf/app/src/supabaseClient';
+	import { supabase } from '../supabaseClient';
 
 	let currentTile: number = 0;
 

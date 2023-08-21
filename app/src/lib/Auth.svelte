@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { supabase } from '/workspace/Fli-Golf/app/src/supabaseClient';
+	import { supabase } from '../supabaseClient';
 	import { fly } from 'svelte/transition';
-	import authStore from '/workspace/Fli-Golf/app/src/lib/AuthStore';
+	import authStore from '../lib/AuthStore';
 
 	let loading = false;
 	let email = '';

@@ -215,7 +215,7 @@ const AdminNavigation = create_ssr_component(($$result, $$props, $$bindings, slo
     $$rendered = `
 
 
-<div class="fixed top-0 left-0 mt-16 w-64"><h1 class="text-white"></h1>
+<div class="fixed top-0 left-0 mt-64"><h1 class="text-white"></h1>
 
 	${validate_component(AppRail, "AppRail").$$render($$result, {}, {}, {
       trail: () => {

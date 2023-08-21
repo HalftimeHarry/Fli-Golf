@@ -1,6 +1,6 @@
 <!-- src/routes/venues/+page.svelte -->
 <script>
-	import VenueTable from '/workspace/Fli-Golf/app/src/lib/VenueTable.svelte'; // Ensure the path is correct
+	import VenueTable from '/lib/VenueTable.svelte'; // Ensure the path is correct
 	import { fade } from 'svelte/transition';
 
 	let showVenuesTable = true;

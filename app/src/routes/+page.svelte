@@ -1,14 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { supabase } from '/workspace/Fli-Golf/app/src/supabaseClient';
+	import { supabase } from '../supabaseClient';
 	import type { AuthSession } from '@supabase/supabase-js';
-	import Account from '/workspace/Fli-Golf/app/src/lib/Account.svelte';
-	import Auth from '/workspace/Fli-Golf/app/src/lib/Auth.svelte';
-	import AdminDashboard from '/workspace/Fli-Golf/app/src/lib/AdminDashboard.svelte';
-	import ParticipantDashboard from '/workspace/Fli-Golf/app/src/lib/ParticipantDashboard.svelte';
+	import Account from '../lib/Account.svelte';
+	import Auth from '/lib/Auth.svelte';
+	import AdminDashboard from '/lib/AdminDashboard.svelte';
+	import ParticipantDashboard from '/lib/ParticipantDashboard.svelte';
 	import { fade } from 'svelte/transition';
-	import ProDashboard from '$lib/ProDashboard.svelte';
-
+	import ProDashboard from '/lib/ProDashboard.svelte';
 
 	let session: AuthSession;
 	let role: 'Admin' | 'Participant' | null = null;

@@ -1,6 +1,6 @@
 <!-- +page.svelte -->
 <script context="module" lang="ts">
-	import { fetchRankings } from '/workspace/Fli-Golf/app/src/routes/rank/rank.json';
+	import { fetchRankings } from './rank.json';
 </script>
 
 <script lang="ts">
