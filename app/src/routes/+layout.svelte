@@ -8,6 +8,8 @@
 	import type { AuthSession } from '@supabase/supabase-js';
 	import { supabase } from '../supabaseClient';
 	import Banner from '$lib/Banner.svelte';
+	import Footer from '$lib/Footer.svelte';
+	import NavScrol from '$lib/NavScrol.svelte';
 
 	let session: AuthSession | null = null;
 	let role: 'Admin' | 'Participant' | null = null;
@@ -115,6 +117,8 @@
 	</svelte:fragment>
 	<slot />
 	{#if !session}
+		<NavScrol />
 		<Banner />
 	{/if}
+	<Footer />
 </AppShell>
