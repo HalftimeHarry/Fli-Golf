@@ -10,7 +10,23 @@
 	import ProDashboard from '../lib/ProDashboard.svelte';
 
 	let session: AuthSession;
-	let role: 'Admin' | 'Participant' | null = null;
+	let role: 'Admin' | 'Participant' | 'Professional' | null = null;
+
+	async function fetchUserRole(_session: AuthSession) {
+		if (_session) {
+			const { data: profile, error } = await supabase
+				.from('profiles')
+				.select('role')
+				.eq('id', _session.user.id)
+				.single();
+
+			if (error) {
+				console.error('Error fetching profile: ', error);
+			} else {
+				role = profile?.role;
+			}
+		}
+	}
 
 	onMount(async () => {
 		const { data, error } = await supabase.auth.getSession();
@@ -21,36 +37,11 @@
 			session = data?.session;
 		}
 
-		if (session) {
-			const { data: profile, error: profileError } = await supabase
-				.from('profiles')
-				.select('role')
-				.eq('id', session.user.id)
-				.single();
-
-			if (profileError) {
-				console.error('Error fetching profile: ', profileError);
-			} else {
-				role = profile?.role;
-			}
-		}
+		fetchUserRole(session);
 
 		supabase.auth.onAuthStateChange(async (_event, _session) => {
 			session = _session;
-
-			if (session) {
-				const { data: profile, error } = await supabase
-					.from('profiles')
-					.select('role')
-					.eq('id', session.user.id)
-					.single();
-
-				if (error) {
-					console.error('Error fetching profile: ', error);
-				} else {
-					role = profile?.role;
-				}
-			}
+			fetchUserRole(session);
 		});
 	});
 </script>
