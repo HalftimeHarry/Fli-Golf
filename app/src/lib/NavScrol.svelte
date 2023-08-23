@@ -1,23 +1,24 @@
 <script>
 	import { onMount } from 'svelte';
 
-	let fixedElement;
+	let fixedEnd;
 	let scrollingList;
+	let fixedStart;
 
 	onMount(() => {
-		const containerWidth = fixedElement.parentNode.offsetWidth;
-		const fixedWidth = fixedElement.offsetWidth;
+		const fixedStartRight = fixedStart.getBoundingClientRect().left;
+		const fixedEndWidth = fixedEnd.getBoundingClientRect().width;
 		const scrollingWidth = scrollingList.scrollWidth;
 
-		// Calculate the distance the list needs to travel
-		const additionalDistance = fixedWidth * 4.0;
-		const distanceToTravel = scrollingWidth - containerWidth + fixedWidth + additionalDistance;
+		// Calculate the total distance the scrolling list should travel.
+		const distanceToTravel = fixedStartRight + scrollingWidth - fixedEndWidth;
 
-		// Set the distance as a CSS variable on the scrolling list
+		// Set the distance and initial translation as CSS variables on the scrolling list.
 		scrollingList.style.setProperty('--distance', `${distanceToTravel}px`);
+		scrollingList.style.setProperty('--fixedEndWidth', `${fixedEndWidth}px`);
 
-		// Adjust animation duration based on distance
-		const duration = 20 * (distanceToTravel / (scrollingWidth - containerWidth + fixedWidth));
+		// Adjust animation duration based on distance.
+		const duration = 10 * (distanceToTravel / scrollingWidth);
 		scrollingList.style.animationDuration = `${duration}s`;
 	});
 </script>
@@ -27,22 +28,22 @@
 		<a href="#" class="hover:underline">Schedule</a>
 		<a href="#" class="hover:underline">Players</a>
 		<a href="#" class="hover:underline">Teams</a>
-		<!-- Add other links similarly -->
 	</div>
 
-	<div class="relative flex items-center">
-		<div
-			bind:this={fixedElement}
-			class="fixed-element bg-green-500 text-white text-center py-2 flex-shrink-0 mr-4 px-4"
-		>
-			Next Tournament
+	<div class="relative flex items-center justify-between border-t border-b border-white">
+		<div class="flex items-center">
+			<div class="fixed-end bg-green-500 text-white text-center py-2 flex-shrink-0 mr-4 px-4">
+				Next Tournament
+			</div>
+			<div class="scrolling-list flex space-x-4">
+				<span>CHICAGO — RICH HARVEST FARMS — SEP 22—24</span>
+				<span>CHICAGO — RICH HARVEST FARMS — SEP 22—24</span>
+				<span>CHICAGO — RICH HARVEST FARMS — SEP 22—24</span>
+			</div>
 		</div>
-		<div bind:this={scrollingList} class="scrolling-list flex space-x-4">
-			<span>CHICAGO — RICH HARVEST FARMS — SEP 22—24</span>
-			<!-- Repeat this list for continuous effect -->
-			<span>CHICAGO — RICH HARVEST FARMS — SEP 22—24</span>
-			<!-- Repeat this list for continuous effect -->
-			<span>CHICAGO — RICH HARVEST FARMS — SEP 22—24</span>
+		<div class="fixed-start flex items-center border-l border-white">
+			<button class="py-2 px-4 bg-blue-500 text-white hover:bg-blue-600">Button 1</button>
+			<button class="ml-2 py-2 px-4 bg-blue-500 text-white hover:bg-blue-600">Button 2</button>
 		</div>
 	</div>
 </div>
@@ -64,7 +65,13 @@
 		overflow: hidden; /* Ensure nothing overflows out of this container */
 	}
 
-	.fixed-element {
+	.fixed-end {
+		flex-shrink: 0;
+		z-index: 2;
+		position: relative;
+	}
+
+	.fixed-start {
 		flex-shrink: 0;
 		z-index: 2;
 		position: relative;
@@ -73,8 +80,11 @@
 	.scrolling-list {
 		/* The animation definition here will be overridden by JavaScript */
 		animation: scroll 20s linear infinite;
-		position: absolute;
-		top: 0;
-		right: 0;
+		display: flex; /* Flexbox display */
+		flex-wrap: nowrap; /* Prevent wrapping of the children */
+	}
+
+	.scrolling-list span {
+		white-space: nowrap; /* Prevent breaking within a span */
 	}
 </style>
