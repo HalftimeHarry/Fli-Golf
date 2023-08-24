@@ -23,10 +23,19 @@
 	});
 </script>
 
-<div class="container mx-auto p-4">
-	<div class="top-row flex flex-row space-x-4 mb-4">
-		<a href="#" class="hover:underline">Schedule</a>
+<div class="container mx-auto p-4 border-t border-white">
+	<div class="top-row flex flex-row space-x-4 mb-4 justify-between">
+		<a href="schedule" class="hover:underline">Schedule</a>
 		<a href="#" class="hover:underline">Players</a>
+		<a href="#" class="hover:underline">Teams</a>
+		<a href="#" class="hover:underline">News</a>
+		<a href="#" class="hover:underline">Video</a>
+		<a href="#" class="hover:underline">Standings</a>
+		<a href="#" class="hover:underline">Fantasy</a>
+		<a href="#" class="hover:underline">Statistics</a>
+		<a href="#" class="hover:underline">Leaderboard</a>
+		<a href="#" class="hover:underline">Where to Watch</a>
+		<a href="#" class="hover:underline">Team Picker</a>
 		<a href="#" class="hover:underline">Teams</a>
 	</div>
 
@@ -42,8 +51,12 @@
 			</div>
 		</div>
 		<div class="fixed-start flex items-center border-l border-white">
-			<button class="py-2 px-4 bg-blue-500 text-white hover:bg-blue-600">Button 1</button>
-			<button class="ml-2 py-2 px-4 bg-blue-500 text-white hover:bg-blue-600">Button 2</button>
+			<button class="py-2 px-4 bg-blue-500 text-white hover:bg-blue-600">
+				MORE INFO <i class="fas fa-arrow-right text-white" />
+			</button>
+			<button class="ml-0 py-2 px-4 bg-blue-500 text-white hover:bg-blue-600">
+				ATTEND EVENT <i class="fas fa-arrow-right text-white" />
+			</button>
 		</div>
 	</div>
 </div>
@@ -75,6 +88,8 @@
 		flex-shrink: 0;
 		z-index: 2;
 		position: relative;
+		display: flex;
+		left: -10px; /* Adjust this value to move the buttons more to the left */
 	}
 
 	.scrolling-list {

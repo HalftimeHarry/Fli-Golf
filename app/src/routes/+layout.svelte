@@ -10,6 +10,12 @@
 	import Banner from '$lib/Banner.svelte';
 	import Footer from '$lib/Footer.svelte';
 	import NavScrol from '$lib/NavScrol.svelte';
+	import { page } from '$app/stores';
+
+	let url;
+
+	$: ({ url } = $page);
+	$: console.log(url);
 
 	let session: AuthSession | null = null;
 	let role: 'Admin' | 'Participant' | null = null;
@@ -94,7 +100,9 @@
 	<svelte:fragment slot="header">
 		<AppBar class="bg-white">
 			<svelte:fragment slot="lead">
-				<img src="/FLIG_GREY.png" alt="FLI GOLF Logo" class="logo-class" />
+				<a href="/">
+					<img src="/FLIG_GREY.png" alt="FLI GOLF Logo" class="logo-class" />
+				</a>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				{#if !session}
@@ -115,10 +123,12 @@
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
-	<slot />
 	{#if !session}
 		<NavScrol />
-		<Banner />
+		{#if !session && url.pathname === '/'}
+			<Banner />
+		{/if}
+		<slot />
 	{/if}
 	<Footer />
 </AppShell>
