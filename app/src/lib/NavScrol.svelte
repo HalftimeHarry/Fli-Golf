@@ -32,8 +32,12 @@
 	</div>
 	<div class="container mx-auto w-full p-4 border-t border-white">
 		<div class="flex w-full">
-			<div class="flex-none w-64 h-14 bg-green-500 relative z-10">Next Tournament</div>
-			<div class="flex-grow ticker-wrapper relative overflow-hidden">
+			<div class="flex-none w-64 h-14 bg-green-500 relative z-10 flex items-center justify-center">
+				Next Tournament
+			</div>
+			<div
+				class="flex-grow ticker-wrapper relative overflow-hidden flex items-center justify-center"
+			>
 				<input readonly bind:value={continuousText} class="w-full border-none bg-transparent" />
 			</div>
 			<div class="flex-initial w-auto relative z-10 flex items-center justify-start space-x-4">
