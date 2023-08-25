@@ -32,7 +32,9 @@
 	</div>
 	<div class="container mx-auto w-full p-4 border-t border-white">
 		<div class="flex w-full">
-			<div class="flex-none w-64 h-14 bg-green-500 relative z-10 flex items-center justify-center">
+			<div
+				class="flex-none w-64 h-14 bg-green-500 relative z-10 flex items-center justify-center text uppercase"
+			>
 				Next Tournament
 			</div>
 			<div
