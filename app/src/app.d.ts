@@ -5,6 +5,7 @@ declare namespace App {
       full_name: string;
       male: boolean;
       ranking: number;
+      pro_image_url: string;
     }
 
     interface VenueInput {

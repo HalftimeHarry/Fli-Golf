@@ -2,7 +2,7 @@
 	import { supabase } from '../supabaseClient';
 	import { overlayStore } from '../lib/overlayStore';
 	import { fade } from 'svelte/transition';
-	import { onMount } from 'svelte';
+	import { onMount, createEventDispatcher } from 'svelte';
 	import ProImage from './ProImage.svelte';
 
 	let player: Partial<App.FormModels.ProPlayerInput> = {
@@ -15,6 +15,12 @@
 
 	let submitting = false;
 	let users = [];
+	let url: string; // Added this declaration
+	let selectedUserId: string | undefined; // Assuming this is needed based on previous context
+	let feedbackType: 'success' | 'error' = 'success'; // Feedback type
+	let feedbackMessage = ''; // Message to provide feedback to the user
+
+	const dispatch = createEventDispatcher();
 
 	onMount(async () => {
 		loadUsers();
@@ -29,19 +35,6 @@
 		}
 	}
 
-	async function loadUserName(userId: string | undefined) {
-		let { data: profiles, error } = await supabase
-			.from('profiles')
-			.select('username')
-			.eq('id', userId);
-
-		if (error) {
-			console.error('Error loading username:', error);
-		} else {
-			return profiles?.[0].username;
-		}
-	}
-
 	function closeOverlay() {
 		overlayStore.update((storeValue) => (storeValue = false));
 	}
@@ -52,29 +45,29 @@
 		}
 	}
 
-	async function handleSubmit() {
-		submitting = true;
-
-		// Fetch the username for the selected user
-		let username = await loadUserName(player.userId);
-
-		// Create a new ProPlayer
-		let { error: insertError } = await supabase.rpc('create_pro_player', {
-			full_name: username,
-			male: player.male,
-			ranking: player.ranking,
-			id: player.userId, // Use the UUID from the user selected in the form
-			pro_image_url: player.pro_image_url
-		});
-
-		if (insertError) {
-			console.error('Error inserting data:', insertError);
+	async function handleFormSubmission() {
+		if (player.userId) {
+			await updateProfessionalImageUrl(player.userId);
 		} else {
-			console.log('Data inserted successfully');
-			closeOverlay();
+			console.error('No user selected.');
 		}
+	}
 
-		submitting = false;
+	async function updateProfessionalImageUrl(userId: string) {
+		const { error } = await supabase
+			.from('professional')
+			.update({ pro_image_url: url })
+			.eq('id', userId);
+
+		if (error) {
+			feedbackType = 'error';
+			feedbackMessage = 'Error updating professional image URL';
+			console.error('Error updating professional image URL: ', error);
+		} else {
+			feedbackType = 'success';
+			feedbackMessage = 'Image updated successfully!';
+			dispatch('imageUpdated', { id: userId, newUrl: url });
+		}
 	}
 </script>
 
@@ -108,7 +101,7 @@
 		</button>
 
 		<!-- Form -->
-		<form class="modal-form" on:submit|preventDefault={handleSubmit}>
+		<form class="modal-form" on:submit|preventDefault={handleFormSubmission}>
 			<label class="label text-black">
 				<span style="font-weight:bold;">User</span>
 				<select bind:value={player.userId}>
@@ -117,23 +110,9 @@
 					{/each}
 				</select>
 			</label>
-
-			<label class="label text-black">
-				<span style="font-weight:bold;">Game Ranking</span>
-				<input
-					class="input text-white"
-					type="number"
-					bind:value={player.ranking}
-					placeholder="Enter game ranking here..."
-				/>
-			</label>
-
-			<label class="label text-black">
-				<span style="font-weight:bold;">Male</span>
-				<input type="checkbox" bind:checked={player.male} />
-			</label>
-
-			<ProImage bind:url={player.pro_image_url} size={150} />
+			<!-- Image uploader -->
+			<ProImage bind:url on:upload={(e) => (url = e.detail.url)} size={150} />
+			<p class="text-black">Upload and set a new image for the selected professional.</p>
 
 			<button type="submit" class="btn mt-4 bg-red-600">Submit</button>
 		</form>
