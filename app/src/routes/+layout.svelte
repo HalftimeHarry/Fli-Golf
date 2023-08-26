@@ -128,7 +128,7 @@
 		{#if !session && url.pathname === '/'}
 			<Banner />
 		{/if}
-		<slot />
 	{/if}
+	<slot />
 	<Footer />
 </AppShell>

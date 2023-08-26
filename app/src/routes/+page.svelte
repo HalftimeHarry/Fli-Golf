@@ -51,7 +51,7 @@
 {:else if role === 'Admin'}
 	<div class="flex flex-col min-h-screen">
 		<div class="container mx-auto px-4 flex-shrink-0">
-			<AdminDashboard {session} />
+			<AdminDashboard />
 		</div>
 		<div
 			class="grid justify-items-center mt-8 flex-grow"
@@ -64,7 +64,7 @@
 {:else if role === 'Professional'}
 	<div class="flex flex-col min-h-screen">
 		<div class="container mx-auto px-4 flex-shrink-0">
-			<ProDashboard {session} />
+			<ProDashboard />
 		</div>
 		<div
 			class="grid justify-items-center mt-8 flex-grow"
@@ -77,7 +77,7 @@
 {:else if role === 'Participant'}
 	<div class="flex flex-col min-h-screen">
 		<div class="container mx-auto px-4 flex-shrink-0">
-			<ParticipantDashboard {session} />
+			<ParticipantDashboard />
 		</div>
 		<div
 			class="grid justify-items-center mt-8 flex-grow"
@@ -85,6 +85,7 @@
 			out:fade={{ duration: 1000 }}
 		>
 			<Account {session} />
+			<div class="text-red-600">FIXXX</div>
 		</div>
 	</div>
 {/if}
