@@ -1,4 +1,4 @@
-import vercelAdapter from '@sveltejs/adapter-vercel';
+import netlifyAdapter from '@sveltejs/adapter-netlify';
 import { vitePreprocess } from '@sveltejs/kit/vite';
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -6,7 +6,7 @@ const config = {
     preprocess: vitePreprocess(),
 
     kit: {
-        adapter: vercelAdapter({
+        adapter: netlifyAdapter({
             // specify the runtime version
             runtime: 'nodejs16.x' // or 'nodejs18.x' if you prefer
         }),
