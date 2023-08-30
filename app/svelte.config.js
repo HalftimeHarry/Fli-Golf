@@ -1,13 +1,17 @@
 import netlifyAdapter from '@sveltejs/adapter-netlify';
-import { preprocess as vitePreprocess } from '@sveltejs/kit/dist/index.js';
+import { vitePreprocess } from '@sveltejs/kit/vite';
 
+/** @type {import('@sveltejs/kit').Config} */
 const config = {
     preprocess: vitePreprocess(),
 
     kit: {
-        adapter: netlifyAdapter(),
+        adapter: netlifyAdapter({
+            // specify the runtime version
+            runtime: 'nodejs16.x' // or 'nodejs18.x' if you prefer
+        }),
 
-        // Other kit options...
+        // other kit options...
     }
 };
 
