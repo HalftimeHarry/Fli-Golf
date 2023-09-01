@@ -11,8 +11,6 @@
 </script>
 
 <div class="fixed top-0 left-0 mt-64">
-	<h1 class="text-white">Admin Dashboard</h1>
-
 	<AppRail>
 		<svelte:fragment slot="lead">
 			<AppRailAnchor href="/"><i class="fas fa-home" /></AppRailAnchor>
