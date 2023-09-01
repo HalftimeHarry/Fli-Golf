@@ -46,27 +46,29 @@
 	}
 
 	async function handleFormSubmission() {
-		if (player.userId) {
-			await updateProfessionalImageUrl(player.userId);
+		if (player.userId && url) {
+			await updateProImageUrlForAdmin(player.userId, url);
 		} else {
-			console.error('No user selected.');
+			console.error('No user selected or image URL available.');
 		}
 	}
 
-	async function updateProfessionalImageUrl(userId: string) {
-		const { error } = await supabase
-			.from('professional')
-			.update({ pro_image_url: url })
-			.eq('id', userId);
+	// In your Svelte component
+	async function updateProImageUrlForAdmin(userId, newUrl) {
+		console.log(newUrl);
+		const { error } = await supabase.rpc('update_pro_image_url_for_admin', {
+			user_id: userId,
+			new_url: newUrl
+		});
 
 		if (error) {
 			feedbackType = 'error';
-			feedbackMessage = 'Error updating professional image URL';
-			console.error('Error updating professional image URL: ', error);
+			feedbackMessage = 'Error updating pro image URL';
+			console.error('Error updating pro image URL: ', error);
 		} else {
 			feedbackType = 'success';
-			feedbackMessage = 'Image updated successfully!';
-			dispatch('imageUpdated', { id: userId, newUrl: url });
+			feedbackMessage = 'Pro image URL updated successfully!';
+			// Additional logic or actions if needed
 		}
 	}
 </script>
@@ -114,7 +116,7 @@
 			<ProImage bind:url on:upload={(e) => (url = e.detail.url)} size={150} />
 			<p class="text-black">Upload and set a new image for the selected professional.</p>
 
-			<button type="submit" class="btn mt-4 bg-red-600">Submit</button>
+			<button type="submit" class="btn mt-4 bg-red-600">Update Image</button>
 		</form>
 	</div>
 </div>
