@@ -7,6 +7,8 @@
 	import ProPlayerForm from '$lib/ProPlayerForm.svelte';
 	import CampaignForm from '$lib/CampaignForm.svelte';
 	import ProImageUpdateForm from '$lib/ProImageUpdateForm.svelte';
+	import TeamForm from '$lib/TeamForm.svelte';
+	import ProDetailsUpdateForm from '$lib/ProDetailsUpdateForm.svelte';
 
 	let showOverlay: boolean = false;
 	let selectedForm: string = '';
@@ -58,11 +60,24 @@
 				<!-- ...existing SVG... -->
 			</button>
 			<button
+				on:click={() => toggleOverlay('team')}
+				class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
+			>
+				Create Team
+				<!-- ...You can add an SVG here too if needed... -->
+			</button>
+			<button
 				on:click={() => toggleOverlay('proimageupdate')}
 				class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
 			>
 				Update Pro Image
 				<!-- ...You can add an SVG here too if needed... -->
+			</button>
+			<button
+				on:click={() => toggleOverlay('prodetailsupdate')}
+				class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
+			>
+				Update Pro Details
 			</button>
 			<button
 				on:click={() => toggleOverlay('campaign')}
@@ -88,10 +103,14 @@
 			<VenueForm />
 		{:else if selectedForm === 'proplayer'}
 			<ProPlayerForm />
+		{:else if selectedForm === 'team'}
+			<TeamForm />
 		{:else if selectedForm === 'proimageupdate'}
 			<ProImageUpdateForm />
 		{:else if selectedForm === 'campaign'}
 			<CampaignForm />
+		{:else if selectedForm === 'prodetailsupdate'}
+			<ProDetailsUpdateForm />
 		{/if}
 	</div>
 {/if}

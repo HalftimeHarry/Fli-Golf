@@ -13,17 +13,30 @@
 
 	onMount(async () => {
 		let { data, error } = await supabase
-			.from('pro_players')
-			.select('profile_id, full_name, game_name, game_ranking');
+			.from('professional')
+			.select('full_name, male, ranking, pro_image_url, is_active, is_captain');
 		if (error) {
-			console.error('Error fetching pro_players:', error);
+			console.error('Error fetching professional:', error);
 		} else {
-			// Assuming data is not null
 			tableSimple = {
-				head: ['Profile ID', 'Full Name', 'Game Name', 'Game Ranking'],
-				body: tableMapperValues(data, ['profile_id', 'full_name', 'game_name', 'game_ranking']),
-				meta: tableMapperValues(data, ['profile_id', 'full_name', 'game_name', 'game_ranking']),
-				foot: ['Total', '', '', `${data.length}`]
+				head: ['Full Name', 'Male', 'Ranking', 'Image', 'Is Active', 'Is Captain'],
+				body: tableMapperValues(data, [
+					'full_name',
+					'male',
+					'ranking',
+					'pro_image_url',
+					'is_active',
+					'is_captain'
+				]),
+				meta: tableMapperValues(data, [
+					'full_name',
+					'male',
+					'ranking',
+					'pro_image_url',
+					'is_active',
+					'is_captain'
+				]),
+				foot: ['Total', '', '', '', '', `${data.length}`]
 			};
 		}
 	});
