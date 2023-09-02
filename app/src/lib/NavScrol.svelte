@@ -18,7 +18,7 @@
 <div class="container mx-auto p-4 border-t border-white">
 	<div class="top-row flex flex-row space-x-4 mb-4 justify-between">
 		<a href="schedule" class="hover:underline">Schedule</a>
-		<a href="#" class="hover:underline">Players</a>
+		<a href="players" class="hover:underline">Players</a>
 		<a href="#" class="hover:underline">Teams</a>
 		<a href="#" class="hover:underline">News</a>
 		<a href="#" class="hover:underline">Video</a>
