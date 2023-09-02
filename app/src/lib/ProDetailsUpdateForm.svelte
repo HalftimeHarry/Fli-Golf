@@ -9,10 +9,12 @@
 		is_active?: boolean;
 		is_captain?: boolean;
 		team_id?: string | null;
+		ranking?: number | null; // Add ranking to the interface
 	}
 
 	let proDetail: ProDetailUpdate = {
-		is_active: true
+		is_active: true,
+		ranking: null // Add initial value for ranking
 	};
 	let teams = [];
 	let users = [];
@@ -55,22 +57,22 @@
 		}
 	}
 
-    async function handleFormSubmission() {
-        if (proDetail.id) {
-            const { data, error } = await supabase
-                .from('professional')
-                .update(proDetail)
-                .eq('id', proDetail.id); 
-            if (error) {
-                console.error('Error updating data:', error);
-            } else {
-                console.log('Data updated successfully:', data);
-                closeOverlay();  // Close the overlay after successful update
-            }
-        } else {
-            console.error('proDetail.id is undefined!');
-        }
-    }
+	async function handleFormSubmission() {
+		if (proDetail.id) {
+			const { data, error } = await supabase
+				.from('professional')
+				.update(proDetail)
+				.eq('id', proDetail.id);
+			if (error) {
+				console.error('Error updating data:', error);
+			} else {
+				console.log('Data updated successfully:', data);
+				closeOverlay(); // Close the overlay after successful update
+			}
+		} else {
+			console.error('proDetail.id is undefined!');
+		}
+	}
 </script>
 
 <div
@@ -103,7 +105,8 @@
 		<form on:submit|preventDefault={handleFormSubmission}>
 			<label class="label text-black">
 				<span style="font-weight:bold;">Pro</span>
-				<select bind:value={proDetail.id}>
+				<select bind:value={proDetail.id} required>
+					<option value="">Select a Pro</option>
 					{#each users as user}
 						<option value={user.id}>{user.username}</option>
 					{/each}
@@ -113,16 +116,18 @@
 				<span style="font-weight:bold;">Is Active</span>
 				<input type="checkbox" bind:checked={proDetail.is_active} />
 			</label>
-
+			<label class="label text-black">
+				<span style="font-weight:bold;">Ranking</span>
+				<input type="number" bind:value={proDetail.ranking} placeholder="Enter ranking" required />
+			</label>
 			<label class="label text-black">
 				<span style="font-weight:bold;">Is Captain</span>
 				<input type="checkbox" bind:checked={proDetail.is_captain} />
 			</label>
-
 			<label class="label text-black">
 				<span style="font-weight:bold;">Team</span>
-				<select bind:value={proDetail.team_id}>
-					<option value={null}>Select a Team</option>
+				<select bind:value={proDetail.team_id} required>
+					<option value="">Select a Team</option>
 					{#each teams as team (team.id)}
 						<option value={team.id}>{team.team_name}</option>
 					{/each}
