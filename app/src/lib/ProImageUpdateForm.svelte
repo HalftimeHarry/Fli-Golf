@@ -68,6 +68,7 @@
 		} else {
 			feedbackType = 'success';
 			feedbackMessage = 'Pro image URL updated successfully!';
+			closeOverlay(); // Close the overlay after success
 			// Additional logic or actions if needed
 		}
 	}
