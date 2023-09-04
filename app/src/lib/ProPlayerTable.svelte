@@ -11,19 +11,51 @@
 		foot: []
 	};
 
+	let teamNames = {}; // To store team_id -> team_name mapping
+
 	onMount(async () => {
-		let { data, error } = await supabase
-			.from('pro_players')
-			.select('profile_id, full_name, game_name, game_ranking');
-		if (error) {
-			console.error('Error fetching pro_players:', error);
+		// Fetch teams
+		let { data: teams, error: teamsError } = await supabase.from('teams').select('id, team_name');
+		if (teamsError) {
+			console.error('Error fetching teams:', teamsError);
 		} else {
-			// Assuming data is not null
+			teams.forEach((team) => {
+				teamNames[team.id] = team.team_name; // Create a mapping of team_id to team_name
+			});
+		}
+
+		// Fetch professionals
+		let { data: pros, error: prosError } = await supabase
+			.from('professional')
+			.select('full_name, male, ranking, pro_image_url, is_active, is_captain, team_id');
+		if (prosError) {
+			console.error('Error fetching professional:', prosError);
+		} else {
+			pros = pros.map((pro) => ({
+				...pro,
+				team_name: teamNames[pro.team_id] || 'N/A' // Assign team name from the mapping
+			}));
 			tableSimple = {
-				head: ['Profile ID', 'Full Name', 'Game Name', 'Game Ranking'],
-				body: tableMapperValues(data, ['profile_id', 'full_name', 'game_name', 'game_ranking']),
-				meta: tableMapperValues(data, ['profile_id', 'full_name', 'game_name', 'game_ranking']),
-				foot: ['Total', '', '', `${data.length}`]
+				head: ['Full Name', 'Male', 'Ranking', 'Image', 'Is Active', 'Is Captain', 'Team Name'],
+				body: tableMapperValues(pros, [
+					'full_name',
+					'male',
+					'ranking',
+					'pro_image_url',
+					'is_active',
+					'is_captain',
+					'team_name'
+				]),
+				meta: tableMapperValues(pros, [
+					'full_name',
+					'male',
+					'ranking',
+					'pro_image_url',
+					'is_active',
+					'is_captain',
+					'team_name'
+				]),
+				foot: ['Total', '', '', '', '', '', `${pros.length}`]
 			};
 		}
 	});
