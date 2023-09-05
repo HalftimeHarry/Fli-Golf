@@ -32,12 +32,19 @@
 			<div slot="summary">
 				<p class="font-bold">{pro.full_name}</p>
 			</div>
-			<div slot="content">
-				<img src={`${CDNURL}/${pro.pro_image_url}`} alt={pro.full_name} />
+			<div slot="content" class="flex items-center space-x-4">
+				{#if pro.pro_image_url}
+					<img
+						src={`${CDNURL}/${pro.pro_image_url}`}
+						alt={`${pro.full_name}`}
+						class="w-24 h-auto"
+					/>
+				{/if}
 				{#if pro.team_id && pro.team_id.team_image_url}
 					<img
 						src={`${TeamCDNURL}/${pro.team_id.team_image_url}`}
-						alt={`${pro.full_name}'s Team Image`}
+						alt={`${pro.full_name} Team`}
+						class="w-24 h-auto"
 					/>
 				{/if}
 			</div>
