@@ -1,5 +1,4 @@
 <script lang="ts">
-	import AdminNavigation from '$lib/AdminNavigation.svelte';
 	import { goto } from '$app/navigation';
 
 	let currentTile: number = 0;
@@ -10,8 +9,6 @@
 </script>
 
 <div class="flex">
-	<AdminNavigation />
-
 	<div class="container mx-auto px-4 mt-16 ml-24">
 		<slot />
 	</div>

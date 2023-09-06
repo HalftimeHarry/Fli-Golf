@@ -5,15 +5,18 @@
 
 	let professionals: ArrayLike<any> | null = [];
 	const CDNURL = 'https://nzctebxobnjbvyygzpfq.supabase.co/storage/v1/object/public/professionals';
+	const TeamCDNURL =
+		'https://nzctebxobnjbvyygzpfq.supabase.co/storage/v1/object/public/team_avatars';
 
 	onMount(async () => {
 		const { data, error } = await supabase
 			.from('professional')
-			.select('id, full_name, pro_image_url');
+			.select('id, full_name, pro_image_url, team_id(team_image_url)');
 		if (error) {
 			console.error(error);
 		} else {
-			professionals = data.filter((pro) => pro.pro_image_url);
+			professionals = data;
+			console.log(professionals);
 		}
 	});
 
@@ -29,8 +32,21 @@
 			<div slot="summary">
 				<p class="font-bold">{pro.full_name}</p>
 			</div>
-			<div slot="content">
-				<img src={`${CDNURL}/${pro.pro_image_url}`} alt={pro.full_name} />
+			<div slot="content" class="flex items-center space-x-4">
+				{#if pro.pro_image_url}
+					<img
+						src={`${CDNURL}/${pro.pro_image_url}`}
+						alt={`${pro.full_name}`}
+						class="w-24 h-auto"
+					/>
+				{/if}
+				{#if pro.team_id && pro.team_id.team_image_url}
+					<img
+						src={`${TeamCDNURL}/${pro.team_id.team_image_url}`}
+						alt={`${pro.full_name} Team`}
+						class="w-24 h-auto"
+					/>
+				{/if}
 			</div>
 		</AccordionItem>
 	{/each}

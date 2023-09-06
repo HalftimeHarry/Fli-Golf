@@ -122,9 +122,9 @@
 				{/if}
 			</svelte:fragment>
 		</AppBar>
+		<NavScrol />
 	</svelte:fragment>
 	{#if !session}
-		<NavScrol />
 		{#if !session && url.pathname === '/'}
 			<Banner />
 		{/if}
