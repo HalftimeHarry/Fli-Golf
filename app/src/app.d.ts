@@ -8,16 +8,18 @@ declare namespace App {
       pro_image_url: string;
     }
 
-    interface VenueInput {
-      id?: string;
-      name: string;
-      location: string;
-      contact_person: string;
-      contact_email: string;
-      seating_capacity: number;
+  interface VenueInput {
+      id?: bigint; // as it is auto-generated in the database
       created_at?: string;
-      updated_at?: string;
-    }
+      userId: string;
+      venue_location: string;
+      venue_image_url: string;
+      venue_contact?: string; // I made it optional since it might map to `venue_contact`, but that's nullable in the schema
+      venue_email: string;
+      venue_seating_capacity: number;
+      venue_address: string;
+      updated_at?: string;  // No direct column for this, but keeping in case you plan to add it later
+  }
 
     // Updated definition for GetSponsor
     interface GetSponsor {
