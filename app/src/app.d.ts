@@ -31,10 +31,11 @@ declare namespace App {
   }
 
     interface OfferSponsorInputLevel {
-      campaign_id_ref_sponsor: string;
-      sponsor_id: string;
-      id: string;
-      sponsor_seleted_level: number;
+      userId: string;
+      company_name: string;
+      contact_person: string;
+      phone_number: string;
+      level: string;
     }
 
     interface OfferSponsorInputLevel {
@@ -44,27 +45,33 @@ declare namespace App {
       sponsor_seleted_level: number;
     }
 
-    interface SponsorInput {
-      id?: string;
+  interface SponsorInput {
+      userId?: string;
       company_name: string;
-      phone_number: string; // Added this field based on your form
-      company_url: string;
       contact_person: string;
-      contact_email: string;
+      phone_number: string;
+      contact_email: string;      // New field
+      company_url: string;        // Adjusted from `website_url`
       created_at?: string;
       updated_at?: string;
-    }
+  }
 
-    interface SponsorInput {
-      id?: string;
+  declare interface SponsorInput {
+      userId?: string;
       company_name: string;
-      company_url: string;
       contact_person: string;
-      contact_email: string;
+      phone_number: string;
+      contact_email?: string;  // This field was in the original interface but not in the updated table schema.
+      company_website?: string; // Changed from company_url for consistency.
+      level?: string;
+      sponsor_logo_url?: string;
       created_at?: string;
       updated_at?: string;
-    }
+  }
 
+  export {};
+
+    
     interface Player {
       name: string;
       rank: string;

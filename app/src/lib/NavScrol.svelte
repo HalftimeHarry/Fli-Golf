@@ -40,7 +40,12 @@
 			<div
 				class="flex-grow ticker-wrapper relative overflow-hidden flex items-center justify-center"
 			>
-				<input readonly bind:value={continuousText} class="w-full border-none bg-transparent" />
+				<input
+					readonly
+					bind:value={continuousText}
+					class="w-full border-none bg-transparent"
+					disabled
+				/>
 			</div>
 			<div class="flex-initial w-auto relative z-10 flex items-center justify-start space-x-4">
 				<button class="w-auto py-2 px-4 bg-blue-500 text-white hover:bg-blue-600">
