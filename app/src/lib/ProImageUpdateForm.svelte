@@ -106,7 +106,7 @@
 		<!-- Form -->
 		<form class="modal-form" on:submit|preventDefault={handleFormSubmission}>
 			<label class="label text-black">
-				<span style="font-weight:bold;">User</span>
+				<span style="font-weight:bold;">Pro</span>
 				<select bind:value={player.userId}>
 					{#each users as user}
 						<option value={user.id}>{user.username}</option>

@@ -135,7 +135,12 @@
 
 			<ProImage bind:url={player.pro_image_url} size={150} />
 
-			<button type="submit" class="btn mt-4 bg-red-600">Submit</button>
+			<button
+				type="submit"
+				class="w-full py-2 mt-4 bg-red-600 rounded text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+			>
+				Submit
+			</button>
 		</form>
 	</div>
 </div>
