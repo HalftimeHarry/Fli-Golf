@@ -101,7 +101,7 @@
 		<AppBar class="bg-white">
 			<svelte:fragment slot="lead">
 				<a href="/">
-					<img src="/FLIG_GREY.png" alt="FLI GOLF Logo" class="logo-class" />
+					<img src="/FLI_BLK.png" alt="FLI GOLF Logo" class="logo-class" />
 				</a>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
