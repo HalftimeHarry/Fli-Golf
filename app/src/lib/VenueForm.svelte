@@ -8,13 +8,11 @@
 
 	let venue: Partial<VenueInput> = {
 		userId: '',
-		venue_location: '',
-		venue_image_url: '',
-		venue_contact: '',
-		venue_email: '',
-		venue_seating_capacity: 1,
+		venue_name: '',
 		venue_address: '',
 		venue_image_url: '',
+		venue_contact: '',
+		venue_email: ''
 	};
 
 	let submitting = false;
@@ -62,19 +60,20 @@
 
 	async function handleSubmit() {
 		submitting = true;
+
 		let venueName = await loadVenueName(venue.userId);
 
 		let { error } = await supabase.rpc('create_venue', {
 			venue_name: venueName,
-			venue_address: venue.venue_location,
+			venue_address: venue.venue_address, // <-- Updated to match the correct field
 			venue_image_url: venue.venue_image_url,
 			venue_email: venue.venue_email,
-			venue_contact: venue.venue_contact,
-			venue_seating_capacity: venue.venue_seating_capacity
+			venue_contact: venue.venue_contact
 		});
 
 		if (error) {
-			console.error('Error inserting data:', error);
+			console.error('Error inserting venue:', error);
+			// handle error appropriately, e.g., show a user-friendly message
 		} else {
 			console.log('Venue added successfully');
 			closeOverlay();
@@ -85,7 +84,7 @@
 </script>
 
 <div
-	class="mt-64 fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-1000 pointer-events-auto"
+	class="mt-24 fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-1000 pointer-events-auto"
 	on:click={handleOutsideClick}
 	on:keydown={handleOutsideClick}
 	transition:fade={{ duration: 200 }}
@@ -128,7 +127,7 @@
 				<input
 					class="mt-1 w-full p-2 text-black border rounded focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 					type="text"
-					bind:value={venue.venue_location}
+					bind:value={venue.venue_address}
 					placeholder="Enter venue name..."
 				/>
 			</label>
@@ -160,16 +159,6 @@
 					type="email"
 					bind:value={venue.venue_email}
 					placeholder="Enter contact email..."
-				/>
-			</label>
-
-			<label class="block text-black font-semibold">
-				Seating Capacity
-				<input
-					class="mt-1 w-full p-2 text-black border rounded focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-					type="number"
-					bind:value={venue.venue_seating_capacity}
-					placeholder="Enter seating capacity..."
 				/>
 			</label>
 
