@@ -9,6 +9,8 @@
 	import ProImageUpdateForm from '$lib/ProImageUpdateForm.svelte';
 	import TeamForm from '$lib/TeamForm.svelte';
 	import ProDetailsUpdateForm from '$lib/ProDetailsUpdateForm.svelte';
+	import Section from '$lib/SectionForm.svelte';
+	import SectionContent from '$lib/SectionContent.svelte';
 
 	let showOverlay: boolean = false;
 	let selectedForm: string = '';
@@ -86,6 +88,20 @@
 				Create Campaign
 				<!-- ...existing SVG... -->
 			</button>
+			<button
+				on:click={() => toggleOverlay('section')}
+				class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
+			>
+				Create Section
+				<!-- ...existing SVG... -->
+			</button>
+			<button
+				on:click={() => toggleOverlay('section_content')}
+				class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
+			>
+				Create Section Content
+				<!-- ...existing SVG... -->
+			</button>
 		</div>
 	</div>
 </section>
@@ -109,6 +125,10 @@
 			<ProImageUpdateForm />
 		{:else if selectedForm === 'campaign'}
 			<CampaignForm />
+		{:else if selectedForm === 'section'}
+			<Section />
+		{:else if selectedForm === 'section_content'}
+			<SectionContent />
 		{:else if selectedForm === 'prodetailsupdate'}
 			<ProDetailsUpdateForm />
 		{/if}

@@ -85,7 +85,6 @@
 			out:fade={{ duration: 1000 }}
 		>
 			<Account {session} />
-			<div class="text-red-600">FIXXX</div>
 		</div>
 	</div>
 {/if}

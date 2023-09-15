@@ -4,20 +4,20 @@
 	import { fade } from 'svelte/transition';
 	import { v4 as uuidv4 } from 'uuid';
 
-   interface TeamInput {
-        id: string;
-        team_name: string;
-        team_image_url?: string;
-        website?: string;
-        updated_at?: Date;
-    }
+	interface TeamInput {
+		id: string;
+		team_name: string;
+		team_image_url?: string;
+		website?: string;
+		updated_at?: Date;
+	}
 
-    let team: TeamInput = {
-        id: '',
-        team_name: '',
-        team_image_url: '',
-        website: ''
-    };
+	let team: TeamInput = {
+		id: '',
+		team_name: '',
+		team_image_url: '',
+		website: ''
+	};
 
 	let imageFile; // for uploaded file
 
@@ -77,7 +77,7 @@
 		<button
 			class="absolute top-0 right-0 m-2 text-gray-700 hover:text-gray-900"
 			type="button"
-			on:click={closeOverlay}
+			on:click|stopPropagation={closeOverlay}
 		>
 			<!-- ...close button SVG... -->
 		</button>
