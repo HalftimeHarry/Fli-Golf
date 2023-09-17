@@ -20,6 +20,7 @@
 		order: 0
 	};
 
+	let selectedFiles; // To handle image file selection
 	let submitting = false;
 	let sections = [];
 
@@ -29,6 +30,7 @@
 
 	async function loadSections() {
 		let { data, error } = await supabase.from('sections').select('id, title');
+		console.log(data);
 		if (error) {
 			console.error('Error loading sections:', error);
 		} else {
@@ -46,12 +48,28 @@
 		}
 	}
 
+	async function handleUpload() {
+		if (selectedFiles && selectedFiles.length > 0) {
+			const file = selectedFiles[0];
+			const { data, error } = await supabase.storage
+				.from('section_images')
+				.upload('path/to/save/' + file.name, file);
+
+			if (error) {
+				console.error('Error uploading:', error);
+			} else {
+				sectionContentData.image_url = 'path/to/save/' + file.name; // Storing the path reference
+			}
+		}
+	}
+
 	async function handleSubmit() {
 		submitting = true;
+		await handleUpload(); // Upload the image first
+
 		const { error: insertError } = await supabase
 			.from('section_contents')
 			.insert([sectionContentData]);
-
 		if (insertError) {
 			console.error('Error inserting data:', insertError);
 		} else {
@@ -119,17 +137,13 @@
 					bind:value={sectionContentData.description}
 					placeholder="Enter description..."
 					required
-				></textarea>
+				/>
 			</label>
 
+			<!-- Image Upload Field -->
 			<label class="block my-2 text-black">
-				<span class="block mb-1 font-bold">Image URL</span>
-				<input
-					class="border rounded p-2 w-full"
-					type="url"
-					bind:value={sectionContentData.image_url}
-					placeholder="Enter image URL..."
-				/>
+				<span class="block mb-1 font-bold">Upload Image</span>
+				<input type="file" bind:files={selectedFiles} class="border rounded p-2 w-full" />
 			</label>
 
 			<label class="block my-2 text-black">
