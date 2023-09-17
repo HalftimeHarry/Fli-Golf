@@ -54,7 +54,6 @@
 			<a href="#" class="hover:underline">Leaderboard</a>
 			<a href="#" class="hover:underline">Where to Watch</a>
 			<a href="info" class="hover:underline">Info</a>
-			<a href="questions" class="hover:underline">FAQ</a>
 			<button
 				class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
 				on:click={toggleVegasPopUp}
