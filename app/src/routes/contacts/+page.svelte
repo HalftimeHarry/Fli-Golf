@@ -10,7 +10,7 @@
 	import TeamForm from '$lib/TeamForm.svelte';
 	import ProDetailsUpdateForm from '$lib/ProDetailsUpdateForm.svelte';
 	import Section from '$lib/SectionForm.svelte';
-	import SectionContent from '$lib/SectionContent.svelte';
+	import SectionContentForm from '$lib/SectionContentForm.svelte';
 
 	let showOverlay: boolean = false;
 	let selectedForm: string = '';
@@ -128,7 +128,7 @@
 		{:else if selectedForm === 'section'}
 			<Section />
 		{:else if selectedForm === 'section_content'}
-			<SectionContent />
+			<SectionContentForm />
 		{:else if selectedForm === 'prodetailsupdate'}
 			<ProDetailsUpdateForm />
 		{/if}
