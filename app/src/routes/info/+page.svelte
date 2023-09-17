@@ -16,28 +16,47 @@
 		if (error) {
 			console.error(error);
 		} else {
-			sec_images = data;
+			const sectionsGrouped: { [key: string]: any[] } = {};
+
+			data.forEach((item) => {
+				if (sectionsGrouped[item.section_id.title]) {
+					sectionsGrouped[item.section_id.title].push(item);
+				} else {
+					sectionsGrouped[item.section_id.title] = [item];
+				}
+			});
+
+			sec_images = sectionsGrouped;
 			console.log(sec_images);
 		}
 	});
 </script>
 
 <Accordion autocollapse class="card p-4 text-token">
-	{#each sec_images as image (image.id)}
-		<AccordionItem open>
+	{#each Object.keys(sec_images).sort((a, b) => {
+		// Compare based on the first item's "order" from each section not workin fix later
+		return sec_images[a][0].section_id.order - sec_images[b][0].section_id.order;
+	}) as sectionTitle}
+		<AccordionItem open={sectionTitle === 'OVERVIEW'}>
+			<!-- Adjust 1 to the ID of the Overview section -->
 			<div slot="lead">
 				<!-- Add any icon or leading content here -->
 			</div>
 			<div slot="summary">
-				<p class="font-bold">{image.section_id.title}</p>
-				<!-- Display the title from sections table here -->
+				<p class="font-bold">{sectionTitle}</p>
 			</div>
 			<div slot="content" class="flex items-center flex-col space-y-4">
-				<p class="font-bold">{image.subtitle}</p>
-				<p>{image.description}</p>
-				{#if image.image_url}
-					<img src={`${CDNURL}/${image.image_url}`} alt={`${image.subtitle}`} class="w-24 h-auto" />
-				{/if}
+				{#each sec_images[sectionTitle] as image}
+					{#if image.image_url}
+						<img
+							src={`${CDNURL}/${image.image_url}`}
+							alt={`${image.subtitle}`}
+							class="w-24 h-auto"
+						/>
+					{/if}
+					<p class="font-bold">{image.subtitle}</p>
+					<p>{image.description}</p>
+				{/each}
 			</div>
 		</AccordionItem>
 	{/each}
