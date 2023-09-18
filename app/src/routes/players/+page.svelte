@@ -11,7 +11,7 @@
 	onMount(async () => {
 		const { data, error } = await supabase
 			.from('professional')
-			.select('id, full_name, pro_image_url, team_id(team_image_url)');
+			.select('id, full_name, ranking, pro_image_url, team_id(team_image_url)');
 		if (error) {
 			console.error(error);
 		} else {
@@ -30,28 +30,58 @@
 				<!-- Add any icon or leading content here -->
 			</div>
 			<div slot="summary">
-				<p class="font-bold">{pro.full_name}</p>
+				<p class="font-bold text-green-400">{pro.full_name}</p>
 			</div>
-			<div slot="content" class="flex items-center space-x-4">
+			<div slot="content" class="card">
 				{#if pro.pro_image_url}
 					<img
 						src={`${CDNURL}/${pro.pro_image_url}`}
 						alt={`${pro.full_name}`}
-						class="w-24 h-auto"
+						class="card-image w-24 h-auto rounded-lg"
 					/>
 				{/if}
-				{#if pro.team_id && pro.team_id.team_image_url}
-					<img
-						src={`${TeamCDNURL}/${pro.team_id.team_image_url}`}
-						alt={`${pro.full_name} Team`}
-						class="w-24 h-auto"
-					/>
-				{/if}
+				<div class="card-content">
+					<p class="font-bold text-black">Ranked {pro.ranking}</p>
+					<p class="font-bold text-black">Member of</p>
+					{#if pro.team_id && pro.team_id.team_image_url}
+						<img
+							src={`${TeamCDNURL}/${pro.team_id.team_image_url}`}
+							alt={`${pro.full_name} Team`}
+							class="card-team-image w-34 h-24 rounded-lg"
+						/>
+					{/if}
+				</div>
 			</div>
 		</AccordionItem>
 	{/each}
 </Accordion>
 
 <style>
-	/* Add any required styles for this page */
+	.card {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 20px;
+		border: 1px solid #e2e8f0;
+		border-radius: 10px;
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		background-color: #ffffff;
+		width: 300px; /* adjust based on your needs */
+		margin: 20px; /* adjust based on your needs */
+	}
+
+	.card-content {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 100%;
+	}
+
+	.card-image {
+		margin-bottom: 20px;
+	}
+
+	.card-team-image {
+		margin-top: 10px;
+	}
 </style>
