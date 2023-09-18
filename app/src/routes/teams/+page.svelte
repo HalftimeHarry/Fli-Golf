@@ -6,12 +6,15 @@
 	let teams: ArrayLike<any> | null = [];
 	const TeamCDNURL =
 		'https://nzctebxobnjbvyygzpfq.supabase.co/storage/v1/object/public/team_avatars';
-	const ProCDNURL = 'https://nzctebxobnjbvyygzpfq.supabase.co/storage/v1/object/public/professionals';
+	const ProCDNURL =
+		'https://nzctebxobnjbvyygzpfq.supabase.co/storage/v1/object/public/professionals';
 
 	onMount(async () => {
 		const { data, error } = await supabase
-			.from('teams') 
-			.select('id, team_name, team_image_url, professional(pro_image_url)'); // Fetch the team's information along with associated professionals' images.
+			.from('teams')
+			.select(
+				'id, team_name, team_image_url, professional(id, full_name, male, ranking, is_active, is_captain, pro_image_url)'
+			);
 		if (error) {
 			console.error(error);
 		} else {
@@ -40,15 +43,22 @@
 						class="w-24 h-24 rounded-lg"
 					/>
 				{/if}
-				
+
 				{#each team.professional as pro}
-					{#if pro.pro_image_url}
-						<img
-							src={`${ProCDNURL}/${pro.pro_image_url}`}
-							alt={`${pro.full_name}`}
-							class="w-24 h-24 rounded-lg"
-						/>
-					{/if}
+					<div class="flex items-center space-x-2">
+						{#if pro.pro_image_url}
+							<img
+								src={`${ProCDNURL}/${pro.pro_image_url}`}
+								alt={`${pro.full_name}`}
+								class="w-24 h-24 rounded-lg"
+							/>
+						{/if}
+						<p>
+							{pro.full_name}<br />
+							{@html pro.is_captain ? '<i class="fas fa-crown"></i> Captian' : ''}<br />
+							{pro.male ? 'Male' : 'Female'} - Ranked # {pro.ranking || 'N/A'} in the world
+						</p>
+					</div>
 				{/each}
 			</div>
 		</AccordionItem>
