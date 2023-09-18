@@ -11,7 +11,7 @@
 	onMount(async () => {
 		const { data, error } = await supabase
 			.from('professional')
-			.select('id, full_name, pro_image_url, team_id(team_image_url)');
+			.select('id, full_name, ranking, pro_image_url, team_id(team_image_url)');
 		if (error) {
 			console.error(error);
 		} else {
@@ -30,21 +30,22 @@
 				<!-- Add any icon or leading content here -->
 			</div>
 			<div slot="summary">
-				<p class="font-bold">{pro.full_name}</p>
+				<p class="font-bold text-green-400">{pro.full_name}</p>
 			</div>
 			<div slot="content" class="flex items-center space-x-4">
 				{#if pro.pro_image_url}
 					<img
 						src={`${CDNURL}/${pro.pro_image_url}`}
 						alt={`${pro.full_name}`}
-						class="w-24 h-auto"
+						class="w-24 h-auto rounded-lg"
 					/>
 				{/if}
+				<p class="font-bold text-green-400">{pro.ranking}</p>
 				{#if pro.team_id && pro.team_id.team_image_url}
 					<img
 						src={`${TeamCDNURL}/${pro.team_id.team_image_url}`}
 						alt={`${pro.full_name} Team`}
-						class="w-24 h-auto"
+						class="w-34 h-24 rounded-lg"
 					/>
 				{/if}
 			</div>
