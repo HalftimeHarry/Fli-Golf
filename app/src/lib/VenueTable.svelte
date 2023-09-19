@@ -15,10 +15,10 @@
 		let { data, error } = await supabase
 			.from('venues')
 			.select(
-				'id, profile_id, name, location, contact_person, contact_email, seating_capacity, created_at'
+				'id, venue_name, venue_address, venue_contact, venue_email, venue_seating_capacity, created_at'
 			);
 		if (error) {
-			console.error('Error fetching venues:', error);
+			console.error('Error fetching venues:', error.message, error);
 		} else {
 			// Assuming data is not null
 			// Convert created_at timestamp to Date object and format it
@@ -29,7 +29,7 @@
 
 			tableSimple = {
 				head: [
-					'Venue Name',
+					'Name',
 					'Location',
 					'Contact Person',
 					'Contact Email',
@@ -37,11 +37,11 @@
 					'Created At'
 				],
 				body: tableMapperValues(data, [
-					'name',
-					'location',
-					'contact_person',
-					'contact_email',
-					'seating_capacity',
+					'venue_name',
+					'venue_address',
+					'venue_contact',
+					'venue_email',
+					'venue_seating_capacity',
 					'created_at'
 				]),
 				meta: tableMapperValues(data, [
