@@ -52,7 +52,7 @@
 			<a href="#" class="hover:underline">Fantasy</a>
 			<a href="#" class="hover:underline">Statistics</a>
 			<a href="#" class="hover:underline">Leaderboard</a>
-			<a href="#" class="hover:underline">Where to Watch</a>
+			<a href="press" class="hover:underline">Press</a>
 			<a href="info" class="hover:underline">Info</a>
 			<button
 				class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
