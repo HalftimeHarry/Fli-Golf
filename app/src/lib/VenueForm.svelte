@@ -12,7 +12,8 @@
 		venue_address: '',
 		venue_image_url: '',
 		venue_contact: '',
-		venue_email: ''
+		venue_email: '',
+		venue_seating_capacity: null // <-- Add this
 	};
 
 	let submitting = false;
@@ -63,19 +64,19 @@
 
 		let venueName = await loadVenueName(venue.userId);
 
-		let { error } = await supabase.rpc('create_venue', {
-			venue_name: venueName,
-			venue_address: venue.venue_address, // <-- Updated to match the correct field
+		let { error, data } = await supabase.rpc('create_venue', {
+			venue_name: venue.venue_name,
+			venue_address: venue.venue_address,
 			venue_image_url: venue.venue_image_url,
 			venue_email: venue.venue_email,
-			venue_contact: venue.venue_contact
+			venue_contact: venue.venue_contact,
+			venue_seating_capacity: venue.venue_seating_capacity
 		});
 
 		if (error) {
 			console.error('Error inserting venue:', error);
-			// handle error appropriately, e.g., show a user-friendly message
 		} else {
-			console.log('Venue added successfully');
+			console.log('Venue added successfully with ID:', data);
 			closeOverlay();
 		}
 
@@ -127,7 +128,7 @@
 				<input
 					class="mt-1 w-full p-2 text-black border rounded focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 					type="text"
-					bind:value={venue.venue_address}
+					bind:value={venue.venue_name}
 					placeholder="Enter venue name..."
 				/>
 			</label>
@@ -149,6 +150,16 @@
 					type="text"
 					bind:value={venue.venue_contact}
 					placeholder="Enter contact person name..."
+				/>
+			</label>
+
+			<label class="block text-black font-semibold">
+				Seating Capacity
+				<input
+					class="mt-1 w-full p-2 text-black border rounded focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+					type="number"
+					bind:value={venue.venue_seating_capacity}
+					placeholder="Enter seating capacity..."
 				/>
 			</label>
 
