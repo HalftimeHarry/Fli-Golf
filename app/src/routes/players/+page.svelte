@@ -3,7 +3,8 @@
 	import { supabase } from '../../supabaseClient';
 	import { onMount } from 'svelte';
 
-	let professionals: ArrayLike<any> | null = [];
+	let professionals = {};
+	let openProfessionals: { [key: string]: boolean } = {};
 	const CDNURL = 'https://nzctebxobnjbvyygzpfq.supabase.co/storage/v1/object/public/professionals';
 	const TeamCDNURL =
 		'https://nzctebxobnjbvyygzpfq.supabase.co/storage/v1/object/public/team_avatars';
@@ -15,38 +16,41 @@
 		if (error) {
 			console.error(error);
 		} else {
-			professionals = data;
-			console.log(professionals);
+			data.forEach((pro) => {
+				professionals[pro.id] = pro;
+			});
 		}
 	});
 
-	console.log(professionals);
+	function toggleProfessional(proId: string) {
+		openProfessionals[proId] = !openProfessionals[proId];
+	}
 </script>
 
 <Accordion autocollapse class="card p-4 text-token">
-	{#each professionals as pro (pro.id)}
-		<AccordionItem open>
+	{#each Object.keys(professionals) as proId}
+		<AccordionItem open={openProfessionals[proId]}>
 			<div slot="lead">
 				<!-- Add any icon or leading content here -->
 			</div>
-			<div slot="summary">
-				<p class="font-bold text-green-400">{pro.full_name}</p>
+			<div slot="summary" on:click={() => toggleProfessional(proId)}>
+				<p class="font-bold text-green-400">{professionals[proId].full_name}</p>
 			</div>
 			<div slot="content" class="card">
-				{#if pro.pro_image_url}
+				{#if professionals[proId].pro_image_url}
 					<img
-						src={`${CDNURL}/${pro.pro_image_url}`}
-						alt={`${pro.full_name}`}
-						class="card-image w-24 h-auto rounded-lg"
+						src={`${CDNURL}/${professionals[proId].pro_image_url}`}
+						alt={`${professionals[proId].full_name}`}
+						class="card-image w-24 h-auto rounded-lg mt-4"
 					/>
 				{/if}
-				<div class="card-content">
-					<p class="font-bold text-black">Ranked {pro.ranking}</p>
+				<div class="card-content bg-slate-500 rounded-lg w-full">
+					<p class="font-bold text-black">Ranked {professionals[proId].ranking}</p>
 					<p class="font-bold text-black">Member of</p>
-					{#if pro.team_id && pro.team_id.team_image_url}
+					{#if professionals[proId].team_id && professionals[proId].team_id.team_image_url}
 						<img
-							src={`${TeamCDNURL}/${pro.team_id.team_image_url}`}
-							alt={`${pro.full_name} Team`}
+							src={`${TeamCDNURL}/${professionals[proId].team_id.team_image_url}`}
+							alt={`${professionals[proId].full_name} Team`}
 							class="card-team-image w-34 h-24 rounded-lg"
 						/>
 					{/if}
@@ -61,11 +65,10 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		padding: 20px;
 		border: 1px solid #e2e8f0;
 		border-radius: 10px;
 		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-		background-color: #ffffff;
+		background-color: #d1d1d1; /* darker grey */
 		width: 300px; /* adjust based on your needs */
 		margin: 20px; /* adjust based on your needs */
 	}
