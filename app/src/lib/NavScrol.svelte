@@ -51,7 +51,7 @@
 			<a href="#" class="hover:underline">Standings</a>
 			<a href="#" class="hover:underline">Fantasy</a>
 			<a href="#" class="hover:underline">Statistics</a>
-			<a href="#" class="hover:underline">Leaderboard</a>
+			<a href="leaderboard" class="hover:underline">Leaderboard</a>
 			<a href="press" class="hover:underline">Press</a>
 			<a href="info" class="hover:underline">Info</a>
 			<button
