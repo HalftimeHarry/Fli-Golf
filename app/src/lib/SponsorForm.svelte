@@ -12,7 +12,7 @@
 		contact_person: '',
 		phone_number: '',
 		contact_email: '',
-		company_website: '',
+		company_url: '',
 		level: '',
 		sponsor_logo_url: ''
 	};
@@ -62,13 +62,23 @@
 		submitting = true;
 		let companyName = await loadCompanyName(sponsor.userId);
 
+		console.log(
+			sponsor.contact_person,
+			sponsor.phone_number,
+			sponsor.level,
+			sponsor.contact_email,
+			sponsor.company_url,
+			sponsor.sponsor_logo_url
+		);
 		let { error } = await supabase.rpc('create_sponsor', {
 			id: sponsor.userId,
 			company_name: companyName,
 			contact_person: sponsor.contact_person,
 			phone_number: sponsor.phone_number,
 			level: sponsor.level,
-			sponsor_logo_url: sponsor.sponsor_logo_url
+			sponsor_logo_url: sponsor.sponsor_logo_url,
+			company_url: sponsor.company_url,
+			contact_email: sponsor.contact_email
 		});
 
 		if (error) {
@@ -137,6 +147,16 @@
 			</label>
 
 			<label class="block text-black font-semibold">
+				Contact Email
+				<input
+					class="mt-1 w-full p-2 text-black border rounded focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+					type="text"
+					bind:value={sponsor.contact_email}
+					placeholder="Enter contact person's Email here..."
+				/>
+			</label>
+
+			<label class="block text-black font-semibold">
 				Phone Number
 				<input
 					class="mt-1 w-full p-2 text-black border rounded focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
@@ -151,7 +171,7 @@
 				<input
 					class="mt-1 w-full p-2 text-black border rounded focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 					type="text"
-					bind:value={sponsor.website}
+					bind:value={sponsor.company_url}
 					placeholder="Enter phone number here..."
 				/>
 			</label>
